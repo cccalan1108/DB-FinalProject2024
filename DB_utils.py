@@ -426,3 +426,5 @@ def search_study_event(course_name):
     cur.execute(query)
 
     return print_table(cur)
+
+def change
