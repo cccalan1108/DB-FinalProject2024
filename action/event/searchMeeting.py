@@ -1,6 +1,6 @@
 from ..action import Action
 from DB_utils import search_study_event
-class SearchEvent(Action):
+class SearchMeeting(Action):
     def exec(self, conn, user):
         print("Search Event")
         
