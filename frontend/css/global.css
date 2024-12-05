@@ -1,0 +1,17 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body 和 HTML 必須設置 */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%; /* 確保全寬度 */
+    font-family: Arial, sans-serif;
+    background-color: #ffffff; /* 背景淺灰色 */
+    align-items: center; /* 垂直置中 */
+    justify-content: center; /* 水平置中 */
+    background-color: #d4d4d5; /* 背景淺灰色 */
+}
