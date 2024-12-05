@@ -1,0 +1,123 @@
+.header {
+    display: flex; /* 使用 Flexbox */
+    align-items: center; /* 垂直居中 */
+    position: relative; /* 為方便居中設置相對定位 */
+    height: 80px; /* 頁首高度 */
+    padding: 0 20px; /* 左右內邊距 */
+    background-color: #01d4fe; /* 背景顏色 */
+    border-bottom: 1px solid #ddd;
+    width: 100%; /* 填滿頁面寬度 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加輕微陰影 */
+}
+
+.logo {
+    flex: 0 0 auto; /* 保持 logo 靠左，不拉伸 */
+}
+
+.account-title {
+    position: absolute; /* 絕對定位 */
+    left: 50%; /* 水平居中參考 */
+    transform: translateX(-50%); /* 偏移自身寬度的一半，實現真正居中 */
+    text-align: center; /* 文字居中 */
+}
+
+.logo h1 {
+    font-size: 36px; /* 更大字體 */
+    color: white; /* 白色字體 */
+    font-family: 'Arial', sans-serif; /* 字體樣式 */
+    font-weight: bold; /* 加粗字體 */
+}
+
+.account-title h2 {
+    font-size: 28px; /* 適中的字體大小 */
+    color: #fff; /* 白色字體 */
+    font-family: 'Arial', sans-serif;
+    font-weight: bold; /* 正常字體粗細 */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* 添加文字陰影 */
+}
+
+.login-header h3 {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #050505; /* 藍色標題 */
+    margin-bottom: 20px;
+}
+
+/* Main Container */
+.main-container {
+    width: 100%;
+    height: 100%;
+    display: flex; /* 彈性佈局讓內部內容居中 */
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+}
+
+/* Box Container */
+.box-container {
+    width: 100%;
+    height: 85%;
+    max-width: 2000px; /* 限制最大寬度 */
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Account Section with Grid Layout */
+.account-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 自動調整欄位分佈 */
+    gap: 20px; /* 每個欄位的間距 */
+    margin-top: 20px;
+}
+
+/* Input Field */
+.input-field {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Label 樣式 */
+.input-field label {
+    font-size: 16px;
+    color: #333333;
+    margin-bottom: 5px;
+}
+
+/* Input and Select 樣式 */
+.input-field input,
+.input-field select {
+    padding: 15px;
+    font-size: 14px;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.input-field input:focus,
+.input-field select:focus {
+    border-color: #3aa7f0;
+}
+
+/* Submit Button */
+.submit-button {
+    grid-column: span 2; /* 按鈕占據整行 */
+    width: 20%; /* 寬度占滿容器 */
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #3aa7f0;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 20px;
+}
+
+.submit-button:hover {
+    background-color: #3399e6;
+    transform: scale(1.03);
+}
