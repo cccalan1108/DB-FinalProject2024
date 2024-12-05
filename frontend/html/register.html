@@ -6,6 +6,7 @@
     <title>Register</title>
     <link rel="stylesheet" href="../css/register.css">
     <link rel="stylesheet" href="../css/global.css">
+
 </head>
 <body class="login-page">
     <header class="header">
@@ -42,15 +43,15 @@
                     </div>
                     <div class="input-field">
                         <label for="nickname">Nickname</label>
-                        <input id="nickname" name="nickname" type="text" placeholder="Enter your nickname">
+                        <input id="nickname" name="nickname" type="text" placeholder="Enter your nickname" required>
                     </div>
                     <div class="input-field">
                         <label for="nationality">Nationality</label>
-                        <input id="nationality" name="nationality" type="text" placeholder="Enter your nationality">
+                        <input id="nationality" name="nationality" type="text" placeholder="Enter your nationality" required>
                     </div>
                     <div class="input-field">
                         <label for="city">City</label>
-                        <input id="city" name="city" type="text" placeholder="Enter your city">
+                        <input id="city" name="city" type="text" placeholder="Enter your city" required>
                     </div>
                     <div class="input-field">
                         <label for="phone">Phone</label>
@@ -79,5 +80,8 @@
             </div>
         </div>
     </main>
+
+    <!-- script -->
+    <script src="../script/register.js"></script>
 </body>
 </html>
