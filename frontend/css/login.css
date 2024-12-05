@@ -1,0 +1,147 @@
+.header {
+    display: flex; /* 使用 Flexbox */
+    align-items: center; /* 垂直居中 */
+    position: relative; /* 為方便居中設置相對定位 */
+    height: 80px; /* 頁首高度 */
+    padding: 0 20px; /* 左右內邊距 */
+    background-color: #01d4fe; /* 背景顏色 */
+    border-bottom: 1px solid #ddd;
+    width: 100%; /* 填滿頁面寬度 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加輕微陰影 */
+}
+
+.logo {
+    flex: 0 0 auto; /* 保持 logo 靠左，不拉伸 */
+}
+
+.account-title {
+    position: absolute; /* 絕對定位 */
+    left: 50%; /* 水平居中參考 */
+    transform: translateX(-50%); /* 偏移自身寬度的一半，實現真正居中 */
+    text-align: center; /* 文字居中 */
+}
+
+.logo h1 {
+    font-size: 36px; /* 更大字體 */
+    color: white; /* 白色字體 */
+    font-family: 'Arial', sans-serif; /* 字體樣式 */
+    font-weight: bold; /* 加粗字體 */
+}
+
+.account-title h2 {
+    font-size: 28px; /* 適中的字體大小 */
+    color: #fff; /* 白色字體 */
+    font-family: 'Arial', sans-serif;
+    font-weight: bold; /* 正常字體粗細 */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* 添加文字陰影 */
+}
+
+/* Main Container */
+.main-container {
+    width: 100%;
+    height: 100%;
+    display: flex; /* 彈性佈局讓內部內容居中 */
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+}
+
+/* Box Container */
+.box-container {
+    width: 450px;
+    height: 350px;
+    background-color: #ffffff; /* 白色背景 */
+    padding: 40px;
+    border-radius: 10px; /* 圓角設計 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 輕微陰影 */
+    display: flex;
+    justify-content: center; 
+    flex-direction: column; /* 垂直排列內部元素 */
+    text-align: center; /* 內容居中 */
+}
+
+/* Login Header */
+.login-header h3 {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #050505; /* 藍色標題 */
+    margin-bottom: 20px;
+}
+
+.account-section .input-field {
+    margin-bottom: 20px; /* 增加每個輸入框間的距離 */
+}
+
+/* Input Field Container */
+.input-field {
+    display: flex; /* 使用 Flexbox */
+    flex-direction: row; /* 水平方向排列 */
+    align-items: center; /* 垂直方向對齊 */
+    margin-bottom: 20px; /* 每個輸入框間距 */
+}
+
+/* Label 樣式 */
+.input-field label {
+    width: 120px; /* 固定寬度 */
+    font-size: 16px; /* 標籤字體大小 */
+    color: #333; /* 標籤文字顏色 */
+    text-align: right; /* 標籤文字右對齊 */
+    margin-right: 10px; /* 與輸入框的間距 */
+}
+
+/* Input 樣式 */
+.input-field input {
+    flex: 1; /* 輸入框自適應剩餘空間 */
+    padding: 10px; /* 內邊距 */
+    font-size: 14px; /* 字體大小 */
+    border: 1px solid #ddd; /* 邊框顏色 */
+    border-radius: 8px; /* 圓角設計 */
+    outline: none; /* 去掉默認邊框 */
+    transition: border-color 0.3s; /* 聚焦效果過渡 */
+}
+
+.input-field input:focus {
+    border-color: #3aa7f0; /* 聚焦時邊框變藍 */
+}
+
+/* Submit Button */
+.submit-button {
+    align-self: center; /* 水平置中按鈕 */
+    width: 25%; /* 設定按鈕寬度 */
+    padding: 6px; /* 按鈕內邊距 */
+    font-size: 16px; /* 字體大小 */
+    background-color: #3aa7f0; /* 藍色背景 */
+    color: white; /* 白色文字 */
+    border: none;
+    border-radius: 8px; /* 圓角設計 */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.submit-button:hover {
+    background-color: #3399e6; /* 鼠標懸停時改變背景色 */
+    transform: scale(1.05); /* 懸停時放大 */
+}
+
+.submit-button:active {
+    transform: scale(0.95); /* 點擊時縮小 */
+}
+
+/* Register Link Section */
+.register-link {
+    margin-top: 20px; /* 與按鈕保持距離 */
+    text-align: center; /* 文字居中 */
+    font-size: 14px; /* 字體大小 */
+    color: #555; /* 輕微灰色文字 */
+}
+
+.register-link a {
+    color: #000000; /* 藍色超連結 */
+    text-decoration: none; /* 移除下劃線 */
+    font-weight: bold; /* 加粗字體 */
+    transition: color 0.3s; /* 懸停動畫 */
+}
+
+.register-link a:hover {
+    color: #61a9e0; /* 懸停時變深藍色 */
+}

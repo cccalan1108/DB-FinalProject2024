@@ -1,0 +1,45 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body 和 HTML 必須設置 */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%; /* 確保全寬度 */
+    height: 100%; /* 確保全高 */
+    font-family: Arial, sans-serif;
+    display: flex; /* 使用 Flexbox */
+    flex-direction: column; /* 垂直排列內容 */
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(212, 212, 213, 0.8)), #d4d4d5;
+    /* 漸層背景，模擬霧面效果 */
+    backdrop-filter: blur(5px); /* 添加霧化效果 */
+}
+
+/* Search Bar */
+.search-bar {
+    display: flex;
+    align-items: center; /* Align input and icon vertically */
+    gap: 10px;
+    margin: 0 15px;
+    position: absolute; /* 絕對定位 */
+    left: 50%; /* 水平居中參考 */
+    transform: translateX(-50%); /* 偏移自身寬度的一半，實現真正居中 */
+}
+
+.search-bar input {
+    font-family: Times New Roman;
+    width: 300px;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-bar i {
+    font-size: 20px;
+    color: #fff;
+}
+

@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login and Sign-In</title>
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/global.css">
 </head>
 <body class="login-page">
     <header class="header">
@@ -26,18 +28,26 @@
             </div>
 
             <!-- ACCOUNT & PASSWORD Section -->
-            <div class="section account-section">
+            <form class="section account-section" action="/submit-login" method="POST">
                 <div class="input-field">
-                    <label>Account</label>
-                    <input type="text" placeholder="Email or Phone" required>
+                    <label for="account">Account</label>
+                    <input id="account" name="account" type="text" placeholder="Email or Phone" required>
                 </div>
                 <div class="input-field">
-                    <label>Password</label>
-                    <input type="password" placeholder="Password" required>
+                    <label for="password">Password</label>
+                    <input id="password" name="password" type="password" placeholder="Password" required>
                 </div>
-                <button class="submit-button">SUBMIT</button>
+                <button class="submit-button" type="button" onclick="location.href='lobby.html'">Log in</button>
+            </form>
+
+            <!-- Register Link -->
+            <div class="register-link">
+                <p>Don't have an account? <a href="register.html">Register here</a></p>
             </div>
         </div>
     </main>
+
+    <!-- script -->
+    <script src="../script/login.js"></script>
 </body>
 </html>
