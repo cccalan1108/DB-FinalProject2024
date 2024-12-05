@@ -64,10 +64,65 @@
     text-align: center;
     font-size: 24px;
     font-weight: bold;
-    color: #3aa7f0; /* 藍色標題 */
+    color: #050505; /* 藍色標題 */
     margin-bottom: 20px;
 }
 
 .account-section .input-field {
     margin-bottom: 20px; /* 增加每個輸入框間的距離 */
+}
+
+/* Input Field Container */
+.input-field {
+    display: flex; /* 使用 Flexbox */
+    flex-direction: row; /* 水平方向排列 */
+    align-items: center; /* 垂直方向對齊 */
+    margin-bottom: 20px; /* 每個輸入框間距 */
+}
+
+/* Label 樣式 */
+.input-field label {
+    width: 120px; /* 固定寬度 */
+    font-size: 16px; /* 標籤字體大小 */
+    color: #333; /* 標籤文字顏色 */
+    text-align: right; /* 標籤文字右對齊 */
+    margin-right: 10px; /* 與輸入框的間距 */
+}
+
+/* Input 樣式 */
+.input-field input {
+    flex: 1; /* 輸入框自適應剩餘空間 */
+    padding: 10px; /* 內邊距 */
+    font-size: 14px; /* 字體大小 */
+    border: 1px solid #ddd; /* 邊框顏色 */
+    border-radius: 8px; /* 圓角設計 */
+    outline: none; /* 去掉默認邊框 */
+    transition: border-color 0.3s; /* 聚焦效果過渡 */
+}
+
+.input-field input:focus {
+    border-color: #3aa7f0; /* 聚焦時邊框變藍 */
+}
+
+/* Submit Button */
+.submit-button {
+    align-self: center; /* 水平置中按鈕 */
+    width: 25%; /* 設定按鈕寬度 */
+    padding: 6px; /* 按鈕內邊距 */
+    font-size: 16px; /* 字體大小 */
+    background-color: #3aa7f0; /* 藍色背景 */
+    color: white; /* 白色文字 */
+    border: none;
+    border-radius: 8px; /* 圓角設計 */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.submit-button:hover {
+    background-color: #3399e6; /* 鼠標懸停時改變背景色 */
+    transform: scale(1.05); /* 懸停時放大 */
+}
+
+.submit-button:active {
+    transform: scale(0.95); /* 點擊時縮小 */
 }
