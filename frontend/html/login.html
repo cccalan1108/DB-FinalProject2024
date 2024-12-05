@@ -28,16 +28,21 @@
             </div>
 
             <!-- ACCOUNT & PASSWORD Section -->
-            <div class="section account-section">
+            <form class="section account-section" action="/submit-login" method="POST">
                 <div class="input-field">
-                    <label>Account</label>
-                    <input type="text" placeholder="Email or Phone" required>
+                    <label for="account">Account</label>
+                    <input id="account" name="account" type="text" placeholder="Email or Phone" required>
                 </div>
                 <div class="input-field">
-                    <label>Password</label>
-                    <input type="password" placeholder="Password" required>
+                    <label for="password">Password</label>
+                    <input id="password" name="password" type="password" placeholder="Password" required>
                 </div>
-                <button class="submit-button">SUBMIT</button>
+                <button class="submit-button" type="submit">SUBMIT</button>
+            </form>
+
+            <!-- Register Link -->
+            <div class="register-link">
+                <p>Don't have an account? <a href="register.html">Register here</a></p>
             </div>
         </div>
     </main>
