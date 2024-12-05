@@ -26,6 +26,7 @@ class Role():
         return self.nationality 
     def get_city(self):
         return self.city
+    def get_phone(self):
         return self.phone
     def get_email(self):
         return self.email
