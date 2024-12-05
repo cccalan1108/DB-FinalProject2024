@@ -126,3 +126,22 @@
 .submit-button:active {
     transform: scale(0.95); /* 點擊時縮小 */
 }
+
+/* Register Link Section */
+.register-link {
+    margin-top: 20px; /* 與按鈕保持距離 */
+    text-align: center; /* 文字居中 */
+    font-size: 14px; /* 字體大小 */
+    color: #555; /* 輕微灰色文字 */
+}
+
+.register-link a {
+    color: #000000; /* 藍色超連結 */
+    text-decoration: none; /* 移除下劃線 */
+    font-weight: bold; /* 加粗字體 */
+    transition: color 0.3s; /* 懸停動畫 */
+}
+
+.register-link a:hover {
+    color: #61a9e0; /* 懸停時變深藍色 */
+}
