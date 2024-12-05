@@ -1,9 +1,9 @@
 import socket
 from threading import Thread
 
-from action.LogIn import LogIn
-from action.SignUp import SignUp
-from action.Exit import Exit
+from action.login import LogIn
+from action.signUp import SignUp
+from action.exit import Exit
 
 from DB_utils import *
 from utils import *
@@ -72,3 +72,6 @@ if __name__ == '__main__':
     finally:
         db.close()
         server_socket.close()
+
+
+
