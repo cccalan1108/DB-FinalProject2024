@@ -13,8 +13,8 @@ from action.modifyUserInfo import ModifyUserInfo
 
 # 繼承 Role 
 class User(Role):
-    def __init__(self, userid, username, usernickname, pwd, nationality, city, phone, email, sex, birthday, register_time):
-        super().__init__(userid, username, usernickname, pwd, nationality, city, phone, email, sex, birthday, register_time)
+    def __init__(self, userid, username, usernickname, pwd, nationality, city, phone, email, sex, birthday, registertime):
+        super().__init__(userid, username, usernickname, pwd, nationality, city, phone, email, sex, birthday, registertime)
 
         self.user_action =  [
                                 CreateEvent("Create Study Event"),
