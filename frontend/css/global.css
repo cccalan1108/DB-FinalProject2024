@@ -9,9 +9,11 @@ html, body {
     margin: 0;
     padding: 0;
     width: 100%; /* 確保全寬度 */
+    height: 100%; /* 確保全高 */
     font-family: Arial, sans-serif;
-    background-color: #ffffff; /* 背景淺灰色 */
-    align-items: center; /* 垂直置中 */
-    justify-content: center; /* 水平置中 */
-    background-color: #d4d4d5; /* 背景淺灰色 */
+    display: flex; /* 使用 Flexbox */
+    flex-direction: column; /* 垂直排列內容 */
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(212, 212, 213, 0.8)), #d4d4d5;
+    /* 漸層背景，模擬霧面效果 */
+    backdrop-filter: blur(5px); /* 添加霧化效果 */
 }
