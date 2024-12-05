@@ -1,0 +1,73 @@
+.header {
+    display: flex; /* 使用 Flexbox */
+    align-items: center; /* 垂直居中 */
+    position: relative; /* 為方便居中設置相對定位 */
+    height: 80px; /* 頁首高度 */
+    padding: 0 20px; /* 左右內邊距 */
+    background-color: #01d4fe; /* 背景顏色 */
+    border-bottom: 1px solid #ddd;
+    width: 100%; /* 填滿頁面寬度 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加輕微陰影 */
+}
+
+.logo {
+    flex: 0 0 auto; /* 保持 logo 靠左，不拉伸 */
+}
+
+.account-title {
+    position: absolute; /* 絕對定位 */
+    left: 50%; /* 水平居中參考 */
+    transform: translateX(-50%); /* 偏移自身寬度的一半，實現真正居中 */
+    text-align: center; /* 文字居中 */
+}
+
+.logo h1 {
+    font-size: 36px; /* 更大字體 */
+    color: white; /* 白色字體 */
+    font-family: 'Arial', sans-serif; /* 字體樣式 */
+    font-weight: bold; /* 加粗字體 */
+}
+
+.account-title h2 {
+    font-size: 28px; /* 適中的字體大小 */
+    color: #fff; /* 白色字體 */
+    font-family: 'Arial', sans-serif;
+    font-weight: bold; /* 正常字體粗細 */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* 添加文字陰影 */
+}
+
+/* Main Container */
+.main-container {
+    width: 100%;
+    height: 100%;
+    display: flex; /* 彈性佈局讓內部內容居中 */
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+}
+
+/* Box Container */
+.box-container {
+    width: 450px;
+    height: 350px;
+    background-color: #ffffff; /* 白色背景 */
+    padding: 40px;
+    border-radius: 10px; /* 圓角設計 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 輕微陰影 */
+    display: flex;
+    justify-content: center; 
+    flex-direction: column; /* 垂直排列內部元素 */
+    text-align: center; /* 內容居中 */
+}
+
+/* Login Header */
+.login-header h3 {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #3aa7f0; /* 藍色標題 */
+    margin-bottom: 20px;
+}
+
+.account-section .input-field {
+    margin-bottom: 20px; /* 增加每個輸入框間的距離 */
+}
