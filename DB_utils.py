@@ -1,9 +1,11 @@
+
 import sys
 import psycopg2
 from tabulate import tabulate
 from threading import Lock
+from datetime import datetime
 
-DB_NAME = "I'M_IN"
+DB_NAME = "BELLO"
 DB_USER = "dbta"
 DB_HOST = "127.0.0.1"
 DB_PORT = 5432
@@ -34,6 +36,7 @@ def db_connect():
     #         db.close()
     sys.exit(exit_code)
     
+
 def print_table(cur):
     rows = cur.fetchall()
     columns = [desc[0] for desc in cur.description]
@@ -41,12 +44,17 @@ def print_table(cur):
     return tabulate(rows, headers=columns, tablefmt="github")
 
 # ============================= System function =============================
-def db_register_user(username, pwd, email):
+def db_register_user(account, username, user_nickname, pwd, nationality, city, phone, email, sex, birthday):
+    
+    # 獲取當前時間，格式為 YYYY-MM-DD HH:MM:SS
+    register_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
     cmd =   """
-            insert into "USER" (User_name, Password, Email) values (%s, %s, %s)
+            insert into "USER" (Account, User_name, User_nickname, Password, Nationality, City, Phone, Email, Sex, Birthday, Register_time) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
             RETURNING User_id;
             """
-    cur.execute(cmd, [username, pwd, email])
+    
+    cur.execute(cmd, [account, username, user_nickname, pwd, nationality, city, phone, email, sex, birthday, register_time])
     userid = cur.fetchone()[0]
 
     cmd =   """
@@ -55,8 +63,8 @@ def db_register_user(username, pwd, email):
     cur.execute(cmd, [userid])
     db.commit()
 
-
     return userid
+
 
 def fetch_user(userid): 
     cmd =   """
@@ -83,15 +91,15 @@ def fetch_user(userid):
 
     return username, pwd, email, isUser, isAdmin
 
-def username_exist(username):
+
+def account_exist(account):
     
     cmd =   """
             select count(*) from "USER"
-            where User_name = %s;
+            where Account = %s;
             """
     # print(cur.mogrify(cmd, [username]))
-    cur.execute(cmd, [username])
-
+    cur.execute(cmd, [account])
 
     count = cur.fetchone()[0]
     return count > 0
@@ -105,7 +113,6 @@ def userid_exist(userid):
     cur.execute(cmd, [userid])
     count = cur.fetchone()[0]
     return count > 0
-
 
 
 # ============================= function for User =============================
@@ -224,26 +231,26 @@ def list_history(user_id):
     return print_table(cur)
 
 
-def find_course(instructor_name, course_name):
+def find_meeting(event_city, content):
     
     query = f"""
             Select *
-            From "COURSE"
+            From "MEETING"
             Where 
             """
     count = 0
-    if instructor_name != "None":
+    if event_city != "None":
         count += 1
-        query += f"Instructor_name Like '%{instructor_name}%'"
-    if course_name != "None":
+        query += f"Event_city Like '%{event_city}%'"
+    if content != "None":
         if count > 0:
             query += ' And '
         count += 1
-        query += f"Course_name Like '%{course_name}%'"
+        query += f"Content Like '%{content}%'"
     query += ';'
         
     if count == 0: # All argument is "None" (No keyword for search)
-        return "Instructor_name and Course_name cannot be both empty."
+        return "City and content cannot be both empty."
     
     # print(cur.mogrify(query))
     cur.execute(query)

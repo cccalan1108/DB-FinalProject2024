@@ -1,7 +1,7 @@
 class Action():    
     def __init__(self, action_name):
         self.action_name = action_name
-    def exec(self, conn, **kwargs):
+    def exec(self, conn, **kwargs):  # 執行具體的動作
         raise NotImplementedError
     def get_name(self):
         return self.action_name

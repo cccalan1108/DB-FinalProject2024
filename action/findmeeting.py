@@ -1,14 +1,14 @@
 from .action import Action
-from DB_utils import find_course
-class FindCourse(Action):
+from DB_utils import find_meeting
+class FindMeeting(Action):
     def exec(self, conn, user):
-        print("Find Course")
+        print("為您找尋聚會 Find Meeting")
         conn.send(" (enter None if don't want to search based on the item)\n".encode('utf-8'))
-        instructor_name = self.read_input(conn, "instructor name")
-        course_name = self.read_input(conn, "course name")
-        print(f'Find Course | {instructor_name}, {course_name}')
+        event_city= self.read_input(conn, "event_city")
+        content = self.read_input(conn, "content")
+        print(f'Find Course | {event_city}, {content}')
         
-        table = find_course(instructor_name, course_name)
+        table = find_meeting(event_city, content)
         self.send_table(conn, table)
     
         return 
