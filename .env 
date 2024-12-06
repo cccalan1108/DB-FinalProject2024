@@ -1,0 +1,17 @@
+DB_NAME=postgres
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_HOST=localhost
+DB_PORT=5430
+SERVER_HOST=127.0.0.1
+SERVER_PORT=8800
+
+
+#Sample
+#DB_NAME=postgres
+#DB_USER=postgres
+#DB_PASSWORD=postgres
+#DB_HOST=localhost
+#DB_PORT=5432
+#SERVER_HOST=localhost
+#SERVER_PORT=1234
