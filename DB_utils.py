@@ -44,23 +44,45 @@ def print_table(cur):
     return tabulate(rows, headers=columns, tablefmt="github")
 
 # ============================= System function =============================
-def db_register_user(account, username, user_nickname, pwd, nationality, city, phone, email, sex, birthday):
+def db_register_user(account, username, user_nickname, pwd, nationality, city, phone, email,
+                      sex, birthday, star_sign, mbti, blood_type, religion, university, married, sns):
     
     # 獲取當前時間，格式為 YYYY-MM-DD HH:MM:SS
     register_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
+    # 插入 USER 資料表
     cmd =   """
-            insert into "USER" (Account, User_name, User_nickname, Password, Nationality, City, Phone, Email, Sex, Birthday, Register_time) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+            insert into "USER" (Account, User_name, User_nickname, Password, Nationality, City, Phone, Email,
+              Sex, Birthday, Register_time) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
             RETURNING User_id;
             """
-    
     cur.execute(cmd, [account, username, user_nickname, pwd, nationality, city, phone, email, sex, birthday, register_time])
     userid = cur.fetchone()[0]
 
+    # 插入到 USER_DETAIL 表
+    sns_flag = 'Yes' if sns else 'No'
+    cmd_detail = """
+        INSERT INTO "USER_DETAIL" 
+        (User_id, Star_sign, Mbti, Blood_type, Religion, University, Married, Sns) 
+        VALUES (%s, NULL, NULL, NULL, NULL, NULL, NULL, %s);
+    """
+    cur.execute(cmd_detail, [userid, sns_flag])
+
+    # 插入 USER_ROLE 資料表
     cmd =   """
             insert into "USER_ROLE" (User_id, Role) VALUES (%s, 'User');
             """
     cur.execute(cmd, [userid])
+    
+    # 插入到 SNS_DETAIL 表（如果有 SNS 資訊）
+    if sns:
+        cmd_sns = """
+            INSERT INTO "SNS_DETAIL" (User_id, Sns_type, Sns_id) 
+            VALUES (%s, %s, %s);
+        """
+        for sns in sns_list:
+            cur.execute(cmd_sns, [userid, sns["type"], sns["id"]])
+    
     db.commit()
 
     return userid
