@@ -26,13 +26,13 @@
 先執行 `server.py` 啟動伺服器：
 
 ```bash
-python .\server.py 
+python ./server.py 
 ```
 
 再透過 `client.py` 向伺服器連線：
 
 ```bash
-python .\client.py 
+python ./client.py 
 ```
 
 
