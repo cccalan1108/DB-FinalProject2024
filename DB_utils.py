@@ -2,9 +2,9 @@ import psycopg2
 from config import Config
 from tabulate import tabulate
 from datetime import datetime
+from flask import jsonify
 
 class DatabaseManager:
-
     def __init__(self):
         self.config = Config
         self.connection = None
@@ -21,11 +21,9 @@ class DatabaseManager:
                 port=self.config.DB_PORT
             )
             self.cursor = self.connection.cursor()
-            print("Successfully connected to database.")
-            return True
+
         except psycopg2.Error as e:
-            print("Database connection error:", e)
-            return False
+            self.connection = None
 
     def close(self):
         if self.connection:
@@ -114,16 +112,27 @@ class DatabaseManager:
                 """
         result = self.execute_query(query, (account, password))
         
+        # 登入成功
         if result and len(result) > 0:
             row = result[0]
-            return {
-                'user_id': row[0],
-                'user_name': row[1],
-                'nickname': row[2],
+            response = {
+                "status": "success",
+                "message": f"Welcome back, {row[1]}!",
+                "user_id": row[0],
+                "role": row[4],
                 'email': row[3],
-                'role': row[4]
+                'nickname': row[2],
+                'user_name': row[1]
             }
-        return None
+            return jsonify(response)
+        
+        # 登入失敗
+        response = {
+            "status": "error",
+            "message": "Invalid account or password!"
+        }
+        return jsonify(response)
+    
     def get_private_messages(self, sender_id, receiver_id, limit=10):
         query = """
                 SELECT pm.Sender_id, pm.Content, pm.Sending_time, u.User_nickname
