@@ -6,10 +6,10 @@ from flask import request, jsonify, Blueprint
 signUp = Blueprint("signUp", __name__)
 
 class SignUpAction(Action):
-    def __init__(self):
-        super().__init__("Sign Up")
-        cur = db_manager.cursor()
-    def exec(self, db_manager=None):
+    def __init__(self, db_manager):
+        self.db_manager = db_manager
+
+    def exec(self):
         try:
             account = 
             password = 
