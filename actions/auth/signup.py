@@ -1,14 +1,18 @@
 from ..Action import Action
 from datetime import datetime
+from DB_utils import DatabaseManager as db_manager
+from flask import request, jsonify, Blueprint
+
+signUp = Blueprint("signUp", __name__)
 
 class SignUpAction(Action):
     def __init__(self):
         super().__init__("Sign Up")
-        
-    def exec(self, conn, db_manager=None):
+        cur = db_manager.cursor()
+    def exec(self, db_manager=None):
         try:
-            self.send_message(conn, "\n=== User Registration ===")
-            self.send_message(conn, "* indicates required field")
+            account = 
+            password = 
             
             # necessary information
             account = self.read_input(conn, "*Account (max 15 characters)")
