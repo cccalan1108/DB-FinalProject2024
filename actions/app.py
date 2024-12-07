@@ -1,21 +1,22 @@
-from flask import Flask, render_template, session, redirect
-from DB_utils import db_connect
+from flask import Flask, render_template, session, redirect, Blueprint, 
 
-from actions.auth.login import login
-from actions.auth.signup import signUp
+from auth.login import login
+from auth.signup import signUp
+from flask_cors import CORS
 
-# Global Flask app (SUBJECT TO CHANGE) static_folder="../frontend/assets"
-app = Flask(__name__, template_folder="../frontend/html")
+# Global Flask app (SUBJECT TO CHANGE) static_folder="../frontend/assets,template_folder="../frontend/html""
+app = Flask(__name__, template_folder="../frontend/html", static_folder="../frontend/css")
+CORS(app, resources={r"*": {"origins": "*"}}) 
 
+script_bp = Blueprint('script_bp', __name__, static_folder='../frontend/script')
+app.register_blueprint(script_bp)
 app.register_blueprint(login)
 app.register_blueprint(signUp)
 
+
 @app.route('/')
 def index():
-    if session.get("login"):
-        return redirect("/category")
-    else:
-        return redirect("/login") 
+    return render_template('login.html')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug = True)
