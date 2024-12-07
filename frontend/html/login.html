@@ -28,7 +28,7 @@
             </div>
 
             <!-- ACCOUNT & PASSWORD Section -->
-            <form class="section account-section" action="/submit-login" method="POST">
+            <form class="section account-section" id="login-form" action="/submit-login" method="POST">
                 <div class="input-field">
                     <label for="account">Account</label>
                     <input id="account" name="account" type="text" placeholder="Email or Phone" required>
@@ -37,7 +37,7 @@
                     <label for="password">Password</label>
                     <input id="password" name="password" type="password" placeholder="Password" required>
                 </div>
-                <button class="submit-button" type="button" onclick="location.href='lobby.html'">Log in</button>
+                <button class="submit-button" type="submit">Log in</button>
             </form>
 
             <!-- Register Link -->
