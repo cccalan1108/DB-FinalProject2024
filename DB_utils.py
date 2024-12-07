@@ -1,6 +1,7 @@
 import psycopg2
 from config import Config
 from tabulate import tabulate
+from datetime import datetime
 
 class DatabaseManager:
 
@@ -123,23 +124,35 @@ class DatabaseManager:
                 'role': row[4]
             }
         return None
-    def get_private_messages(self, sender_id, receiver_id):
+    def get_private_messages(self, sender_id, receiver_id, limit=10):
         query = """
-                SELECT Sender_id, Content, Sending_time 
-                FROM PRIVATE_MESSAGE 
-                WHERE (Sender_id = %s AND Receiver_id = %s) 
-                OR (Sender_id = %s AND Receiver_id = %s)
-                ORDER BY Sending_time
+                SELECT pm.Sender_id, pm.Content, pm.Sending_time, u.User_nickname
+                FROM PRIVATE_MESSAGE pm
+                JOIN "USER" u ON pm.Sender_id = u.User_id
+                WHERE (pm.Sender_id = %s AND pm.Receiver_id = %s)
+                OR (pm.Sender_id = %s AND pm.Receiver_id = %s)
+                ORDER BY pm.Sending_time DESC
+                LIMIT %s
                 """
-        return self.execute_query(query, (sender_id, receiver_id, receiver_id, sender_id))
-    def get_meeting_messages(self, meeting_id):
+        result = self.execute_query(query, (sender_id, receiver_id, receiver_id, sender_id, limit))
+        if result:
+            messages = list(reversed(result))
+            return messages
+        return []
+    def get_meeting_messages(self, meeting_id, limit=10):
         query = """
-                SELECT Sender_id, Content, Sending_time 
-                FROM CHATTING_ROOM 
-                WHERE Meeting_id = %s 
-                ORDER BY Sending_time
+                SELECT cr.Sender_id, cr.Content, cr.Sending_time, u.User_nickname
+                FROM CHATTING_ROOM cr
+                JOIN "USER" u ON cr.Sender_id = u.User_id
+                WHERE cr.Meeting_id = %s
+                ORDER BY cr.Sending_time DESC
+                LIMIT %s
                 """
-        return self.execute_query(query, (meeting_id,))
+        result = self.execute_query(query, (meeting_id, limit))
+        if result:
+            messages = list(reversed(result))[-limit:]
+            return messages
+        return []
 
     def send_private_message(self, sender_id, receiver_id, content):
         query = """
@@ -149,12 +162,15 @@ class DatabaseManager:
         return self.execute_query(query, (sender_id, receiver_id, content))
 
     def send_meeting_message(self, meeting_id, sender_id, content):
-
-        query = """
-                INSERT INTO CHATTING_ROOM (Meeting_id, Sender_id, Sending_time, Content)
-                VALUES (%s, %s, NOW(), %s)
-                """
-        return self.execute_query(query, (meeting_id, sender_id, content))
+        try:
+            query = """
+                    INSERT INTO CHATTING_ROOM (Meeting_id, Sender_id, Sending_time, Content)
+                    VALUES (%s, %s, NOW(), %s)
+                    """
+            return self.execute_query(query, (meeting_id, sender_id, content))
+        except Exception as e:
+            print(f"Error sending meeting message: {e}")
+            return False
     
     def update_user_detail(self, field, value, user_id):
         try:
@@ -243,12 +259,12 @@ class DatabaseManager:
     
     def is_user_in_meeting(self, user_id, meeting_id):
         query = """
-                SELECT 1 
-                FROM PARTICIPATION 
+                SELECT 1
+                FROM participation
                 WHERE User_id = %s AND Meeting_id = %s
                 """
         result = self.execute_query(query, (user_id, meeting_id))
-        return result and len(result) > 0
+        return bool(result)
     
     def join_meeting(self, user_id, meeting_id):
         try:
@@ -271,31 +287,32 @@ class DatabaseManager:
             return False
     def get_user_meetings(self, user_id):
         query = """
-                SELECT 
-                    m.Meeting_id,
-                    m.Content,
-                    m.Event_date,
-                    m.Event_place,
-                    m.Holder_id
+                SELECT m.Meeting_id, m.Content, m.Event_city, m.Event_place, 
+                       m.Event_date, m.Start_time, m.End_time, m.Holder_id,
+                       m.Max_num_participant,
+                       (SELECT COUNT(*) FROM participation p2 WHERE p2.Meeting_id = m.Meeting_id) as num_participant
                 FROM MEETING m
-                JOIN PARTICIPATION p ON m.Meeting_id = p.Meeting_id
+                JOIN participation p ON m.Meeting_id = p.Meeting_id
                 WHERE p.User_id = %s AND m.Status = 'Ongoing'
-                ORDER BY m.Event_date, m.Start_time
                 """
         result = self.execute_query(query, (user_id,))
-        if not result:
-            return []
-            
-        meetings = []
-        for row in result:
-            meetings.append({
-                'meeting_id': row[0],
-                'content': row[1],
-                'event_date': row[2],
-                'event_place': row[3],
-                'holder_id': row[4]
-            })
-        return meetings
+        if result:
+            return [
+                {
+                    'meeting_id': row[0],
+                    'content': row[1],
+                    'event_city': row[2],
+                    'event_place': row[3],
+                    'event_date': row[4],
+                    'start_time': row[5],
+                    'end_time': row[6],
+                    'holder_id': row[7],
+                    'max_participant': row[8],
+                    'num_participant': row[9]
+                }
+                for row in result
+            ]
+        return []
 
     def leave_meeting(self, user_id, meeting_id):
         try:
@@ -396,7 +413,6 @@ class DatabaseManager:
                 JOIN PARTICIPATION p ON m.Meeting_id = p.Meeting_id
                 LEFT JOIN MEETING_LANGUAGE ml ON m.Meeting_id = ml.Meeting_id
                 WHERE p.User_id = %s
-                AND m.Status = 'Finished'
                 GROUP BY m.Meeting_id, m.Content, m.Event_date, m.Start_time, m.End_time,
                         m.Event_city, m.Event_place, m.Status, m.Num_participant, 
                         m.Max_num_participant, m.Holder_id
@@ -498,6 +514,149 @@ class DatabaseManager:
         except Exception as e:
             print(f"Error adding SNS detail: {e}")
             return False
-    def get_user_chat_history(self, user_id):
-        #TODO: Implement this action
-        pass
+
+    def get_user_nickname(self, user_id):
+        query = """
+                SELECT User_nickname
+                FROM "USER"
+                WHERE User_id = %s
+                """
+        result = self.execute_query(query, (user_id,))
+        return result[0][0] if result else None
+
+    def get_meeting_participants(self, meeting_id):
+        query = """
+                SELECT User_id
+                FROM participation
+                WHERE Meeting_id = %s
+                """
+        result = self.execute_query(query, (meeting_id,))
+        return [row[0] for row in result] if result else []
+
+    def get_private_chat_history(self, user_id, partner_id):
+        query = """
+                SELECT 
+                    CASE WHEN pm.Sender_id = %s THEN 'You' ELSE u.User_nickname END as sender,
+                    pm.Content as message,
+                    pm.Sending_time as time
+                FROM PRIVATE_MESSAGE pm
+                JOIN "USER" u ON pm.Sender_id = u.User_id
+                WHERE (pm.Sender_id = %s AND pm.Receiver_id = %s)
+                OR (pm.Sender_id = %s AND pm.Receiver_id = %s)
+                ORDER BY pm.Sending_time
+                """
+        self.cursor.execute(query, (user_id, user_id, partner_id, partner_id, user_id))
+        return self.print_table(self.cursor)
+
+    def get_meeting_chat_history(self, meeting_id):
+        query = """
+                SELECT 
+                    u.User_nickname as sender,
+                    cr.Content as message,
+                    cr.Sending_time as time
+                FROM CHATTING_ROOM cr
+                JOIN "USER" u ON cr.Sender_id = u.User_id
+                WHERE cr.Meeting_id = %s
+                ORDER BY cr.Sending_time
+                """
+        self.cursor.execute(query, (meeting_id,))
+        return self.print_table(self.cursor)
+
+    def get_all_non_admin_users(self):
+        query = """
+                SELECT DISTINCT
+                    u.User_id,
+                    u.User_name,
+                    u.User_nickname,
+                    u.Nationality,
+                    u.City,
+                    u.Email
+                FROM "USER" u
+                LEFT JOIN USER_ROLE ur ON u.User_id = ur.User_id AND ur.Role = 'Admin'
+                WHERE ur.User_id IS NULL
+                ORDER BY u.User_id
+                """
+        self.cursor.execute(query)
+        return self.print_table(self.cursor)
+
+    def get_user_chat_records(self, user_id):
+        query = """
+                SELECT DISTINCT 
+                    CASE 
+                        WHEN pm.Sender_id = %s THEN pm.Receiver_id
+                        ELSE pm.Sender_id 
+                    END as chat_id,
+                    u.User_nickname as chat_name,
+                    MAX(pm.Sending_time) as last_chat_time
+                FROM PRIVATE_MESSAGE pm
+                JOIN "USER" u ON (
+                    CASE 
+                        WHEN pm.Sender_id = %s THEN pm.Receiver_id
+                        ELSE pm.Sender_id 
+                    END = u.User_id
+                )
+                WHERE pm.Sender_id = %s OR pm.Receiver_id = %s
+                GROUP BY 
+                    CASE 
+                        WHEN pm.Sender_id = %s THEN pm.Receiver_id
+                        ELSE pm.Sender_id 
+                    END,
+                    u.User_nickname
+                ORDER BY last_chat_time DESC
+                """
+        result = self.execute_query(query, (user_id, user_id, user_id, user_id, user_id))
+        if not result:
+            return []
+        
+        chat_records = []
+        for row in result:
+            chat_records.append({
+                'chat_id': row[0],
+                'chat_name': row[1],
+                'last_time': row[2]
+            })
+        return chat_records
+
+    def get_chat_history(self, user_id, chat_id):
+        query = """
+                SELECT 
+                    CASE WHEN pm.Sender_id = %s THEN 'You' ELSE u.User_nickname END as sender,
+                    pm.Content as message,
+                    pm.Sending_time as time
+                FROM PRIVATE_MESSAGE pm
+                JOIN "USER" u ON pm.Sender_id = u.User_id
+                WHERE (pm.Sender_id = %s AND pm.Receiver_id = %s)
+                OR (pm.Sender_id = %s AND pm.Receiver_id = %s)
+                ORDER BY pm.Sending_time
+                """
+        self.cursor.execute(query, (user_id, user_id, chat_id, chat_id, user_id))
+        return self.print_table(self.cursor)
+
+    def is_admin(self, user_id):
+        query = """
+                SELECT COUNT(*) 
+                FROM user_role 
+                WHERE User_id = %s AND Role = 'Admin'
+                """
+        result = self.execute_query(query, (user_id,))
+        return result[0][0] > 0 if result else False
+
+    def get_available_users(self, current_user_id):
+        query = """
+            SELECT u.User_id, u.User_nickname as nickname
+            FROM "USER" u
+            LEFT JOIN user_role ur ON u.User_id = ur.User_id AND ur.Role = 'Admin'
+            WHERE u.User_id != %s AND ur.User_id IS NULL
+            ORDER BY u.User_nickname
+        """
+        result = self.execute_query(query, (current_user_id,))
+        if not result:
+            return []
+        
+        users = []
+        for row in result:
+            users.append({
+                'user_id': row[0],
+                'nickname': row[1]
+            })
+        return users
