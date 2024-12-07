@@ -1,8 +1,7 @@
-
 from .action import Action
 from role.user import User
 from role.admin import Admin
-from DB_utils import fetch_user
+from DB_utils import db
 
 class LogIn(Action):
     def exec(self, conn):
@@ -42,26 +41,53 @@ class LogIn(Action):
 
 
 #new
+from flask import Flask, request, jsonify, Blueprint
+from DB_utils import db
+
+login = Blueprint("login", __name__)
+
 class LoginAction(Action):
-    def __init__(self):
-        super().__init__("Login")
+    cur = None
+
+    def __init__(self, db_manager):
+        self.db_manager = db_manager
         
-    def exec(self, conn, db_manager=None):
-        account = self.read_input(conn, "Enter your account")
-        password = self.read_input(conn, "Enter your password")
+    def exec(self):
+        cur = db.cursor()
+
+        # 讀取帳號密碼
+        account = request.form.get('account')  # 從 POST 請求中獲取帳號
+        password = request.form.get('password')  # 從 POST 請求中獲取密碼
         
-        result = db_manager.verify_login(account, password)
-        if result:
-            self.send_message(conn, f"\nWelcome back, {result['user_name']}!")
-            self.send_message(conn, f"Your ID is: {result['user_id']}")
-            
-            if result['role'] == 'Admin':
-                user = Admin(result['user_id'], result['user_name'], 
-                           password, result['email'])
-            else:
-                user = User(result['user_id'], result['user_name'], 
-                          password, result['email'])
-            return user
+        cmd = """
+            select u.account, u.password
+            from user as u
+            where u.account = %s and u.password = %s
+            """
         
-        self.send_message(conn, "Invalid account or password!")
-        return None
+        # 執行查詢
+        cur.execute(cmd, [account, password])
+        users = cur.fetchall()
+
+        if len(users) != 1:
+            # 登入失敗
+            response = {
+                "status": "error",
+                "message": "Invalid account or password!"
+            }
+            return jsonify(response)
+        else:
+            # 根據角色生成回應
+            response = {
+                "status": "success",
+                "message": f"Welcome back, {users[0]['user_name']}!",
+                "user_id": users[0]["user_id"],
+                "role": users[0]["role"]
+            }
+            return jsonify(response)
+
+login_action = LoginAction(db_manager = None)
+
+@login.route('/login', methods=['POST'])
+def login_route():
+    return login_action.exec()
