@@ -18,7 +18,7 @@ class SignUpAction(Action):
                     "status": "error",
                     "message": "Account already exists!",
                 }
-                return False
+                return jsonify(response)
 
             password = request.form.get('password')          
             user_name = request.form.get('name')           
@@ -48,16 +48,23 @@ class SignUpAction(Action):
                 )
                 
                 if success:
-                    self.send_message(conn, "Registration successful!")
-                    self.send_message(conn, "You can now log in and add more personal details in your profile.")
-                    return True
+                    response = {
+                        "status": "success",
+                        "message": "Registration successful!\nYou can now log in and add more personal details in your profile."
+                    }
+                    return jsonify(response)
                 else:
-                    self.send_message(conn, "Registration failed!")
-                    return False
+                    response = {
+                        "status": "error",
+                        "message": "Registration failed!"
+                    }
+                    return jsonify(response)
             
-            return False
+            return jsonify({"status": "error", "message": "ERROR"})
             
         except Exception as e:
-            print(f"Error in signup: {e}")
-            self.send_message(conn, "Registration failed due to an error")
-            return False
+            response = {
+                "status": "error",
+                "message": f"Error in signup: {e}"
+            }
+            return jsonify(response)
