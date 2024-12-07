@@ -50,7 +50,7 @@
 
 /* 標題設定 */
 .options-container h2 {
-    font-size: 32px; /* 增大標題字體 */
+    font-size: 30px; /* 增大標題字體 */
     margin-bottom: 20px; /* 與選項列表的距離 */
     color: #333; /* 字體顏色 */
     font-weight: bold; /* 加粗 */
@@ -68,17 +68,17 @@
 
 /* 按鈕設定 */
 .options-list button {
-    font-size: 20px; /* 增大按鈕字體 */
+    font-size: 14px; /* 增大按鈕字體 */
     padding: 10px 20px; /* 調整內邊距 */
-    border: 2px solid #01d4fe; /* 邊框顏色 */
+    border: 2px solid #6b5f41; /* 邊框顏色 */
     border-radius: 5px; /* 圓角按鈕 */
-    background-color: white; /* 按鈕背景色 */
-    color: #01d4fe; /* 按鈕文字顏色 */
-    cursor: pointer; /* 鼠標變為手型 */
+    background-color: rgb(234, 225, 208); /* 按鈕背景色 */
+    color: #6b5f41; /* 按鈕文字顏色 */
+    cursor: pointer; /* 滑鼠游標變為手型 */
     transition: all 0.3s; /* 添加過渡效果 */
 }
 
 .options-list button:hover {
-    background-color: #01d4fe; /* 滑鼠懸停時變為藍色 */
+    background-color: #6b5f41; /* 滑鼠懸停時變為藍色 */
     color: white; /* 滑鼠懸停時文字變為白色 */
 }
