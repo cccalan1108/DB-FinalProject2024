@@ -1,18 +1,20 @@
-from actions import Action
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent))
+sys.path.append(str(Path(__file__).parent.parent.parent))
+
+from Action import Action
 from flask import request, jsonify, Blueprint
-from DB_utils import db
+from DB_utils import DatabaseManager as db_manager
 
 login = Blueprint("login", __name__)
 
 class LoginAction(Action):
-    cur = None
-
     def __init__(self, db_manager):
         self.db_manager = db_manager
+        self.cur = db_manager
         
     def exec(self):
-        cur = db.cursor()
-
         # 讀取帳號密碼
         account = request.form.get('account')  # 從 POST 請求中獲取帳號
         password = request.form.get('password')  # 從 POST 請求中獲取密碼
@@ -24,8 +26,8 @@ class LoginAction(Action):
             """
         
         # 執行查詢
-        cur.execute(cmd, [account, password])
-        users = cur.fetchall()
+        self.cur.execute(cmd, [account, password])
+        users = self.cur.fetchall()
 
         if len(users) != 1:
             # 登入失敗
