@@ -1,15 +1,10 @@
-from flask import Flask, render_template, session, redirect, Blueprint, 
+from flask import Flask, render_template, session, redirect, Blueprint 
 
-<<<<<<< Updated upstream
 from auth.login import login
 from auth.signup import signUp
-from flask_cors import CORS
-=======
-from actions.auth.login import login
-from actions.auth.signup import signUp
 from meeting.create_meeting import create_meeting
 from meeting.list_meeting import list_meeting
->>>>>>> Stashed changes
+#from flask_cors import CORS
 
 # Global Flask app (SUBJECT TO CHANGE) static_folder="../frontend/assets,template_folder="../frontend/html""
 app = Flask(__name__, template_folder="../frontend/html", static_folder="../frontend/css")
