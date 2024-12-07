@@ -1,7 +1,4 @@
 from actions import Action
-from DB_utils import db
-
-#new
 from flask import request, jsonify, Blueprint
 from DB_utils import db
 
