@@ -1,36 +1,31 @@
-document.querySelector('.submit-button').addEventListener('click', function(event) {
-    // 取得所有必填欄位
-    const requiredFields = document.querySelectorAll('input[required], select[required]');
-    let isValid = true;
+// 替form添加監聽器聽submit
+document.getElementById('login-form').addEventListener('submit', async (e) => {
+    // 防止表單提交刷新頁面而重整
+    e.preventDefault();
 
-    requiredFields.forEach(field => {
-        // 如果欄位為空，設置邊框為紅色
-        if (!field.value.trim()) {
-            isValid = false;
-            field.style.borderColor = 'red'; // 提示未填欄位
+    const account = document.getElementById('account').value;
+    const password = document.getElementById('password').value;
+    
+    try{
+        const response = await fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({ account, password }),
+        });
+
+        // 解析 JSON
+        const data = await response.json();
+        if (data.status === 'success') {
+            // 跳至大廳
+            window.location.href = 'lobby.html';
         } else {
-            field.style.borderColor = ''; // 恢復正常顏色
-            sessionStorage.setItem(field.id, field.value);
+            alert(data.message); // 顯示錯誤訊息
         }
-    });
 
-    if (!isValid) {
-        event.preventDefault(); // 阻止跳轉
-        alert('Please fill in all required fields before registering.');
-        window.location.href = 'login.html';
-    } else {
-        // 跳轉到目標頁面
-        window.location.href = 'lobby.html';
+    } catch(error){
+        console.error('Error:', error);
+        alert('An unexpected error occurred.');
     }
-});
-
-// 還原用戶輸入
-document.addEventListener('DOMContentLoaded', function () {
-    const fields = document.querySelectorAll('input, select');
-    fields.forEach(field => {
-        const savedValue = sessionStorage.getItem(field.id);
-        if (savedValue) {
-            field.value = savedValue; // 恢復用戶輸入的值
-        }
-    });
-});
+})
