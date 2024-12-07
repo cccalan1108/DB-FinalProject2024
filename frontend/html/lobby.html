@@ -27,9 +27,9 @@
             <h2>Welcome to the Lobby</h2>
             <ul class="options-list">
                 <li><button onclick="navigateTo('edit-profile')">Edit Profile</button></li>
-                <li><button id="create-meeting-button">Create Meeting</button></li>
 
-                <!-- 新增會議創建表單 -->
+                <li><button id="create-meeting-button">Create Meeting</button></li>
+                <!-- create meeting 新增會議創建表單 -->
                 <div id="create-meeting-form" style="display: none;">
                     <h3>Create a Meeting</h3>
                     <label for="meeting-type">Meeting Type:</label>
@@ -61,6 +61,11 @@
 
 
                 <li><button onclick="navigateTo('list-meeting')">List Meeting</button></li>
+                <!-- Meeting List Container -->
+                <div id="list-meeting-container" style="display: none;">
+                    <h3>Available Meetings</h3>
+                    <ul id="meeting-list"></ul>
+                </div>
                 <li><button onclick="navigateTo('join-meeting')">Join Meeting</button></li>
                 <li><button onclick="navigateTo('leave-meeting')">Leave Meeting</button></li>
                 <li><button onclick="navigateTo('cancel-meeting')">Cancel Meeting</button></li>
