@@ -11,14 +11,15 @@ login = Blueprint("login", __name__)
 
 class LoginAction(Action):
     def __init__(self, db_manager):
-        self.db_manager = db_manager
+        self.db_manager = db_manager()
         
     def exec(self):
         # 讀取帳號密碼
         account = request.form.get('account')  # 從 POST 請求中獲取帳號
         password = request.form.get('password')  # 從 POST 請求中獲取密碼
-        
-        self.db_manager.verify_login(account, password)
+        print(account,password)
+        print("DEBUG: self.db_manager type:", type(self.db_manager))
+        return self.db_manager.verify_login(account, password)
 
 login_action = LoginAction(db_manager)
 
