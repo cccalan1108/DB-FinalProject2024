@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login and Sign-In</title>
+    <title>Bello Lobby</title>
     <link rel="stylesheet" href="../css/lobby.css">
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body class="login-page">
+<body class="lobby-page">
     <header class="header">
         <div class="logo">
             <h1>Bello</h1>
@@ -19,10 +19,39 @@
             <input type="text" placeholder="Search For Party..." id="search-input">
             <i class="fas fa-magnifying-glass icon" id="search-icon"></i>
         </div>
-
     </header>
 
+    <!-- Main Content -->
+    <main class="main-container">  
+        <div class="options-container">
+            <h2>Welcome to the Lobby</h2>
+            <ul class="options-list">
+                <li><button onclick="navigateTo('edit-profile')">Edit Profile</button></li>
+                <li><button onclick="navigateTo('create-meeting')">Create Meeting</button></li>
+                <li><button onclick="navigateTo('list-meeting')">List Meeting</button></li>
+                <li><button onclick="navigateTo('join-meeting')">Join Meeting</button></li>
+                <li><button onclick="navigateTo('leave-meeting')">Leave Meeting</button></li>
+                <li><button onclick="navigateTo('cancel-meeting')">Cancel Meeting</button></li>
+                <li><button onclick="navigateTo('finish-meeting')">Finish Meeting</button></li>
+                <li><button onclick="navigateTo('view-history')">View History Meeting</button></li>
+                <li><button onclick="navigateTo('private-chat')">Private Chat</button></li>
+                <li><button onclick="navigateTo('meeting-chat')">Meeting Chat Room</button></li>
+                <li><button onclick="exitApp()">Exit</button></li>
+            </ul>
+        </div>
+    </main>
 
-    
+    <script>
+        // Navigation function to handle button clicks
+        function navigateTo(action) {
+            window.location.href = `/${action}`;
+        }
+
+        // Exit function
+        function exitApp() {
+            alert("Goodbye!");
+            window.location.href = '/logout';
+        }
+    </script>
 </body>
 </html>
