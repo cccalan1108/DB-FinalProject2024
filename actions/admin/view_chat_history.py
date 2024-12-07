@@ -8,7 +8,6 @@ class ViewChatHistoryAction(Action):
         try:
             while True:
                 self.send_message(conn, "\n=== View Chat History ===")
-                self.send_message(conn, "0. Back")
                 
                 user_id = self.read_input(conn, "Enter user ID (0 to go back)")
                 
@@ -19,11 +18,30 @@ class ViewChatHistoryAction(Action):
                     self.send_message(conn, "Invalid user ID!")
                     continue
                 
-                chats = db_manager.get_user_chat_history(user_id)
-                if not chats:
-                    self.send_message(conn, "No chat history found.")
+                chat_records = db_manager.get_user_chat_records(user_id)
+                if not chat_records:
+                    self.send_message(conn, "No chat records found.")
                     continue
-                self.send_table(conn, chats)
+                    
+                self.send_message(conn, "\nChat records:")
+                for index, record in enumerate(chat_records, 1):
+                    self.send_message(conn, f"{index}. Chat with {record['chat_name']} (Last: {record['last_time'].strftime('%Y-%m-%d %H:%M')})")
+                
+                choice = self.read_input(conn, "Select chat to view (0 to go back)")
+                if choice == "0" or not choice.isdigit():
+                    continue
+                    
+                index = int(choice) - 1
+                if index < 0 or index >= len(chat_records):
+                    self.send_message(conn, "Invalid choice!")
+                    continue
+                    
+                record = chat_records[index]
+                chat_history = db_manager.get_chat_history(user_id, record['chat_id'])
+                if chat_history:
+                    self.send_table(conn, chat_history)
+                else:
+                    self.send_message(conn, "No messages found.")
                     
         except Exception as e:
             print(f"Error in view chat history: {e}")

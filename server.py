@@ -5,6 +5,7 @@ from DB_utils import DatabaseManager
 from role.User import User
 from role.Admin import Admin
 from role.Visitor import Visitor
+from datetime import datetime
 
 class Server:
     def __init__(self):
@@ -13,6 +14,7 @@ class Server:
         self.port = self.config.SERVER_PORT
         self.server_socket = None
         self.db_manager = DatabaseManager()
+        self.clients = {}
         
     def start(self):
         try:
@@ -40,8 +42,13 @@ class Server:
             while True:
                 if user is None:
                     current_actions = Visitor().get_visitor_actions()
+                    for action in current_actions:
+                        action.server = self
                 else:
                     current_actions = user.get_actions()
+                    for action in current_actions:
+                        action.server = self
+                    self.clients[user.get_userid()] = client_socket
                 
                 menu = self._create_menu(current_actions)
                 client_socket.send(menu.encode('utf-8'))
@@ -79,11 +86,21 @@ class Server:
             return ""
             
     def _create_menu(self, actions):
-        menu = "\nAvailable actions:\n"
+        menu = "="*26
+        menu += "\nAvailable actions:"
         for i, action in enumerate(actions, 1):
-            menu += f"{i}. {action.get_name()}\n"
-        menu += "[INPUT]Please choose an action: "
+            menu += f"\n{i}. {action.get_name()}"
+        menu += "\n[INPUT]Please choose an action: "
         return menu
+    
+    def broadcast_message(self, receiver_id, message):
+        if receiver_id in self.clients:
+            try:
+                timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
+                formatted_message = f"[{timestamp}] {message}"
+                self.clients[receiver_id].send(f"[CHAT]{formatted_message}".encode('utf-8'))
+            except:
+                pass
 
 if __name__ == "__main__":
     server = Server()

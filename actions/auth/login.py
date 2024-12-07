@@ -10,7 +10,7 @@ class LoginAction(Action):
         account = self.read_input(conn, "Enter your account")
         password = self.read_input(conn, "Enter your password")
         
-        result = db_manager.verify_login(account, password)
+        result = db_manager.verify_login(account, password) 
         if result:
             self.send_message(conn, f"\nWelcome back, {result['user_name']}!")
             self.send_message(conn, f"Your ID is: {result['user_id']}")
