@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login and Sign-In</title>
+    <title>Bello Lobby</title>
     <link rel="stylesheet" href="../css/lobby.css">
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body class="login-page">
+<body class="lobby-page">
     <header class="header">
         <div class="logo">
             <h1>Bello</h1>
@@ -19,10 +19,86 @@
             <input type="text" placeholder="Search For Party..." id="search-input">
             <i class="fas fa-magnifying-glass icon" id="search-icon"></i>
         </div>
-
     </header>
 
+    <!-- Main Content -->
+    <main class="main-container">  
+        <div class="options-container">
+            <h2>Welcome to the Lobby</h2>
+            <ul class="options-list">
+                <li><button onclick="navigateTo('edit-profile')">Edit Profile</button></li>
+                <li><button id="create-meeting-button">Create Meeting</button></li>
 
-    
+                <!-- 新增會議創建表單 -->
+                <div id="create-meeting-form" style="display: none;">
+                    <h3>Create a Meeting</h3>
+                    <label for="meeting-type">Meeting Type:</label>
+                    <input type="text" id="meeting-type" placeholder="e.g., 午餐"><br>
+
+                    <label for="languages">Languages (comma-separated):</label>
+                    <input type="text" id="languages" placeholder="e.g., 中文, 英文"><br>
+
+                    <label for="city">City:</label>
+                    <input type="text" id="city" placeholder="City"><br>
+
+                    <label for="place">Place:</label>
+                    <input type="text" id="place" placeholder="Place"><br>
+
+                    <label for="date">Date:</label>
+                    <input type="date" id="date"><br>
+
+                    <label for="start-time">Start Time:</label>
+                    <input type="time" id="start-time"><br>
+
+                    <label for="end-time">End Time:</label>
+                    <input type="time" id="end-time"><br>
+
+                    <label for="max-participants">Max Participants:</label>
+                    <input type="number" id="max-participants" placeholder="e.g., 10"><br>
+
+                    <button onclick="submitMeeting()">Submit</button>
+                </div>
+
+
+                <li><button onclick="navigateTo('list-meeting')">List Meeting</button></li>
+                <li><button onclick="navigateTo('join-meeting')">Join Meeting</button></li>
+                <li><button onclick="navigateTo('leave-meeting')">Leave Meeting</button></li>
+                <li><button onclick="navigateTo('cancel-meeting')">Cancel Meeting</button></li>
+                <li><button onclick="navigateTo('finish-meeting')">Finish Meeting</button></li>
+                <li><button onclick="navigateTo('view-history')">View History Meeting</button></li>
+                <li><button onclick="navigateTo('private-chat')">Private Chat</button></li>
+                <li><button onclick="navigateTo('meeting-chat')">Meeting Chat Room</button></li>
+                <li><button onclick="exitApp()">Exit</button></li>
+            </ul>
+
+            
+        </div>
+    </main>
+
+    <!-- Script -->
+    <script src="lobby.js"></script>
+    <script>
+        // Navigation function to handle button clicks
+        function navigateTo(action) {
+            window.location.href = `/${action}`;
+        }
+
+        // Exit function
+        function exitApp() {
+            alert("Goodbye!");
+            window.location.href = '/logout';
+        }
+
+        // Toggle the visibility of the Create Meeting form
+        document.getElementById('create-meeting-button').addEventListener('click', () => {
+            const form = document.getElementById('create-meeting-form');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        });
+
+        // Submit the meeting form
+        function submitMeeting() {
+            // 此处代码调用 lobby.js 处理提交逻辑
+        }
+    </script>
 </body>
 </html>
