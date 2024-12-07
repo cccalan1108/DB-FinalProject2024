@@ -18,5 +18,4 @@ def index():
         return redirect("/login") 
 
 if __name__ == '__main__':
-    init_app()
     app.run()
