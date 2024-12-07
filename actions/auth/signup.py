@@ -1,4 +1,9 @@
-from ..Action import Action
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent))
+sys.path.append(str(Path(__file__).parent.parent.parent))
+
+from Action import Action
 from datetime import datetime
 from DB_utils import DatabaseManager as db_manager
 from flask import request, jsonify, Blueprint
@@ -7,6 +12,8 @@ signUp = Blueprint("signUp", __name__)
 
 class SignUpAction(Action):
     def __init__(self, db_manager):
+        if not db_manager:
+            raise ValueError("DatabaseManager instance is required")
         self.db_manager = db_manager
 
     def exec(self):
@@ -29,7 +36,7 @@ class SignUpAction(Action):
             sex = request.form.get('gender')
             birthday = request.form.get('birthday')
             city = request.form.get('city')
-            admin_code = request.form.get('admin code')
+            admin_code = request.form.get('admin_code')
 
             if self.db_manager:
                 success = self.db_manager.create_user(
@@ -68,3 +75,9 @@ class SignUpAction(Action):
                 "message": f"Error in signup: {e}"
             }
             return jsonify(response)
+        
+signUp_action = SignUpAction(db_manager)
+
+@signUp.route('/submit-register', methods=['POST'])
+def signUp_route():
+    return signUp_action.exec()
