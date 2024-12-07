@@ -69,7 +69,7 @@ class DatabaseManager:
                 return False
             user_id = result[0][0]
 
-            insert_query =  """
+            insertUser_query =  """
                             INSERT INTO "USER" (
                                 User_id, Account, User_name, User_nickname, Password, 
                                 Nationality, City, Phone, Email, Sex, Birthday, Register_time
@@ -78,7 +78,7 @@ class DatabaseManager:
                             )
                             """
             
-            success = self.execute_query(insert_query, (
+            success = self.execute_query(insertUser_query, (
                 user_id,
                 user_data['account'],
                 user_data['user_name'],
@@ -93,12 +93,21 @@ class DatabaseManager:
                 user_data['register_time']
             ))
 
-            if not success:
-                return False
-
-            role_query = 'INSERT INTO "user_role" (User_id, Role) VALUES (%s, %s)'
-            return self.execute_query(role_query, (user_id, 'User'))
-
+            if user_data['admin_code'] == 123456:
+                if not success:
+                    return False
+                
+                Role = 'Admin'
+                insertUserDetail_query =  'INSERT INTO "user_role" (User_id, Role) VALUES (%s, %s)'     
+                return self.execute_query(insertUserDetail_query, (user_id, Role))
+                
+            else:
+                if not success:
+                    return False
+                
+                insertUserDetail_query = 'INSERT INTO "user_role" (User_id, Role) VALUES (%s, %s)'
+                return self.execute_query(insertUserDetail_query, (user_id, 'User'))
+            
         except Exception as e:
             print(f"Error creating user: {e}")
             return False
