@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, redirect, Blueprint, 
+from flask import Flask, render_template, session, redirect, Blueprint
 
 from auth.login import login
 from auth.signup import signUp
