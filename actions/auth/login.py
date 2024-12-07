@@ -4,7 +4,7 @@ sys.path.append(str(Path(__file__).parent.parent))
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
 from Action import Action
-from flask import request, jsonify, Blueprint
+from flask import request, Blueprint
 from DB_utils import DatabaseManager as db_manager
 
 login = Blueprint("login", __name__)
