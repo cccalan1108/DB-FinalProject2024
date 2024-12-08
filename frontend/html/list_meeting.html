@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting List</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/list_meeting.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Meeting List</h1>
+        <button class="back-button" onclick="navigateTo('lobby')">Back to Lobby</button>
+    </header>
+    <main>
+        <div id="meetings-container" class="meetings-container">
+            <!-- Meeting cards will be injected here -->
+        </div>
+    </main>
+    <script>
+        async function fetchMeetings() {
+            try {
+                const response = await fetch('/list_meeting_data');
+                const result = await response.json();
+                if (result.status === 'success') {
+                    renderMeetings(result.meetings);
+                } else {
+                    alert(`Error: ${result.message}`);
+                }
+            } catch (error) {
+                console.error('Error fetching meetings:', error);
+            }
+        }
+
+        function renderMeetings(meetings) {
+            const container = document.getElementById('meetings-container');
+            container.innerHTML = ''; // Clear previous content
+
+            meetings.forEach(meeting => {
+                const card = document.createElement('div');
+                card.className = 'meeting-card';
+
+                card.innerHTML = `
+                    <h2>${meeting.content}</h2>
+                    <p><strong>Date:</strong> ${meeting.event_date}</p>
+                    <p><strong>Time:</strong> ${meeting.start_time} - ${meeting.end_time}</p>
+                    <p><strong>City:</strong> ${meeting.event_city}</p>
+                    <p><strong>Place:</strong> ${meeting.event_place}</p>
+                    <p><strong>Host:</strong> ${meeting.holder_name}</p>
+                    <p><strong>Participants:</strong> ${meeting.num_participant} / ${meeting.max_participant}</p>
+                    <p><strong>Status:</strong> ${meeting.status}</p>
+                    <p><strong>Languages:</strong> ${meeting.languages.join(', ')}</p>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        function navigateTo(action) {
+            window.location.href = `/${action}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchMeetings);
+    </script>
+</body>
+</html>

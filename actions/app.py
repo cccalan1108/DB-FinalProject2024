@@ -45,6 +45,11 @@ def index():
 def lobby():
     return render_template('lobby.html')
 
+@app.route('/list_meeting', methods=['GET'])
+def list_meeting():
+    return render_template('list_meeting.html')
+
+
 
 if __name__ == '__main__':
     app.run(debug = True)

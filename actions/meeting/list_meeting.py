@@ -15,8 +15,7 @@
 
 #         return None
 
-
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, render_template
 from datetime import date, time, datetime
 from DB_utils import DatabaseManager
 
@@ -62,7 +61,19 @@ db_manager = DatabaseManager()
 # 創建 ListMeetingAction 實例 
 list_meeting_action = ListMeetingAction(db_manager=db_manager)
 
-# 註冊路由
-@list_meeting.route('/list-meeting', methods=['GET'])
+
+# @list_meeting.route('/list_meeting', methods=['GET'])
+# def list_meeting_route():
+#     response = list_meeting_action.exec()
+#     print("Data returned to frontend:", response)
+#     return response
+
+
+@list_meeting.route('/list_meeting', methods=['GET'])
 def list_meeting_route():
-    return list_meeting_action.exec()
+    # 直接渲染 HTML 頁面，數據通過前端 fetch 獲取
+    return render_template('list_meeting.html')
+
+@list_meeting.route('/list_meeting_data', methods=['GET'])
+def list_meeting_data():
+    return list_meeting_action.exec()  # 仍然返回 JSON 數據
