@@ -139,11 +139,35 @@ class CreateMeetingAction:
 # 建立 CreateMeetingAction 實例
 create_meeting_action = CreateMeetingAction(db_manager)
 
-# 註冊路由
 @create_meeting.route('/create-meeting', methods=['POST'])
 def create_meeting_route():
-    print("Received POST request to /create-meeting")  # 確認路由是否被調用
-    data = request.json
-    print("Received data:", data)  # 確認接收到的請求數據
-    return create_meeting_action.exec()
+    try:
+        data = request.json
+        print("Received data:", data)
+
+        # 从请求中获取参数
+        holder_id = data['holder_id']
+        content = data['content']
+        event_date = data['date']
+        start_time = data['start_time']
+        end_time = data['end_time']
+        event_city = data['city']
+        event_place = data['place']
+        max_participants = data['max_participants']
+        languages = data['languages']
+
+        # 调用创建会议逻辑
+        meeting_id = db_manager.create_meeting(
+            holder_id, content, event_date, start_time, end_time, 
+            event_city, event_place, max_participants, languages
+        )
+
+        if meeting_id:
+            return jsonify({"status": "success", "message": "Meeting created successfully!", "meeting_id": meeting_id})
+        else:
+            return jsonify({"status": "error", "message": "Failed to create meeting"}), 500
+    except Exception as e:
+        print(f"Error in create_meeting_route: {e}")  # 打印错误信息
+        return jsonify({"status": "error", "message": str(e)}), 500
+
 

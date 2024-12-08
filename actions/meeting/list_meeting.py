@@ -15,8 +15,8 @@
 
 #         return None
 
-
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, render_template
+from datetime import date, time, datetime
 from DB_utils import DatabaseManager
 
 list_meeting = Blueprint("list_meeting", __name__)
@@ -27,14 +27,13 @@ class ListMeetingAction:
 
     def exec(self):
         try:
-            # 獲取所有會議資料
             meetings = self.db_manager.get_all_meetings()
             if not meetings:
                 return jsonify({"status": "error", "message": "No available meetings found"}), 404
 
-            # 按欄位順序轉換為 JSON 格式
-            meetings_list = [
-                {
+            meetings_list = []
+            for row in meetings:
+                meeting = {
                     "meeting_id": row["meeting_id"],
                     "content": row["content"],
                     "event_date": row["event_date"],
@@ -46,15 +45,14 @@ class ListMeetingAction:
                     "num_participant": row["num_participant"],
                     "max_participant": row["max_participant"],
                     "holder_name": row["holder_name"],
-                    "languages": row["languages"].split(", ") if row["languages"] else []
+                    "languages": [lang.encode('latin1').decode('utf-8') for lang in row["languages"]] if row["languages"] else []
                 }
-                for row in meetings
-            ]
+                meetings_list.append(meeting)
 
             return jsonify({"status": "success", "meetings": meetings_list}), 200
         except Exception as e:
-            # 捕獲錯誤並返回錯誤訊息
             return jsonify({"status": "error", "message": str(e)}), 500
+
 
 
 # 初始化 DatabaseManager
@@ -63,7 +61,19 @@ db_manager = DatabaseManager()
 # 創建 ListMeetingAction 實例 
 list_meeting_action = ListMeetingAction(db_manager=db_manager)
 
-# 註冊路由
-@list_meeting.route('/list-meeting', methods=['GET'])
+
+# @list_meeting.route('/list_meeting', methods=['GET'])
+# def list_meeting_route():
+#     response = list_meeting_action.exec()
+#     print("Data returned to frontend:", response)
+#     return response
+
+
+@list_meeting.route('/list_meeting', methods=['GET'])
 def list_meeting_route():
-    return list_meeting_action.exec()
+    # 直接渲染 HTML 頁面，數據通過前端 fetch 獲取
+    return render_template('list_meeting.html')
+
+@list_meeting.route('/list_meeting_data', methods=['GET'])
+def list_meeting_data():
+    return list_meeting_action.exec()  # 仍然返回 JSON 數據

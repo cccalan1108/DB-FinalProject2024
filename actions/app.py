@@ -49,5 +49,11 @@ def lobby():
 def returnToLogin():
     return render_template('login.html')
 
+@app.route('/list_meeting', methods=['GET'])
+def list_meeting():
+    return render_template('list_meeting.html')
+
+
+
 if __name__ == '__main__':
     app.run(debug = True)
