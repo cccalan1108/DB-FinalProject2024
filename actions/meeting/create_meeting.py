@@ -96,6 +96,7 @@ class CreateMeetingAction:
         try:
             # 從 POST 請求的 JSON 中獲取資料
             data = request.json
+            print("Received meeting data:", data)  # 新增打印
 
             # 檢查必要參數
             required_fields = ['content', 'languages', 'city', 'place', 'date', 
@@ -130,6 +131,7 @@ class CreateMeetingAction:
 
         except Exception as e:
             # 捕獲例外錯誤
+            print(f"Error creating meeting: {e}")  # 新增錯誤打印
             return jsonify({"status": "error", "message": f"Error: {str(e)}"}), 500
 
 

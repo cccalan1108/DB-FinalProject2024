@@ -241,39 +241,75 @@ class DatabaseManager:
         self.cursor.execute(query)
         return self.print_table(self.cursor)
 
+    # def create_meeting(self, holder_id, content, event_date, start_time, end_time, 
+    #               event_city, event_place, max_participants, languages):
+    #     try:
+    #         query = "SELECT COALESCE(MAX(Meeting_id), 0) + 1 FROM MEETING"
+    #         result = self.execute_query(query)
+    #         meeting_id = result[0][0]
+            
+    #         query = """
+    #                 INSERT INTO MEETING (
+    #                     Meeting_id, Holder_id, Content, Event_date, Start_time, End_time,
+    #                     Event_city, Event_place, Status, Num_participant, Max_num_participant
+    #                 ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, 'Ongoing', 1, %s)
+    #                 """
+    #         self.execute_query(query, (
+    #             meeting_id, holder_id, content, event_date, start_time, end_time,
+    #             event_city, event_place, max_participants
+    #         ))
+            
+    #         for lang in languages:
+    #             query = "INSERT INTO MEETING_LANGUAGE (Meeting_id, Language) VALUES (%s, %s)"
+    #             self.execute_query(query, (meeting_id, lang))
+                
+    #         query = """
+    #                 INSERT INTO PARTICIPATION (User_id, Meeting_id, Join_time)
+    #                 VALUES (%s, %s, NOW())
+    #                 """
+    #         self.execute_query(query, (holder_id, meeting_id))
+            
+    #         return meeting_id
+            
+    #     except Exception as e:
+    #         print(f"Error creating meeting: {e}")
+    #         return None
     def create_meeting(self, holder_id, content, event_date, start_time, end_time, 
-                  event_city, event_place, max_participants, languages):
+                   event_city, event_place, max_participants, languages):
         try:
+            # 獲取新的會議 ID
             query = "SELECT COALESCE(MAX(Meeting_id), 0) + 1 FROM MEETING"
             result = self.execute_query(query)
-            meeting_id = result[0][0]
-            
+            meeting_id = result[0][0] if result else None
+            print(f"New meeting ID: {meeting_id}")  # 新增打印
+
+            # 插入會議資料
             query = """
-                    INSERT INTO MEETING (
-                        Meeting_id, Holder_id, Content, Event_date, Start_time, End_time,
-                        Event_city, Event_place, Status, Num_participant, Max_num_participant
-                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, 'Ongoing', 1, %s)
-                    """
+                INSERT INTO MEETING (
+                    Meeting_id, Holder_id, Content, Event_date, Start_time, End_time,
+                    Event_city, Event_place, Status, Num_participant, Max_num_participant
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, 'Ongoing', 1, %s)
+            """
             self.execute_query(query, (
-                meeting_id, holder_id, content, event_date, start_time, end_time,
+                meeting_id, holder_id, content, event_date, start_time, end_time, 
                 event_city, event_place, max_participants
             ))
-            
+
+            # 插入語言資料
             for lang in languages:
                 query = "INSERT INTO MEETING_LANGUAGE (Meeting_id, Language) VALUES (%s, %s)"
                 self.execute_query(query, (meeting_id, lang))
-                
-            query = """
-                    INSERT INTO PARTICIPATION (User_id, Meeting_id, Join_time)
-                    VALUES (%s, %s, NOW())
-                    """
+
+            # 預設加入發起者為參與者
+            query = "INSERT INTO PARTICIPATION (User_id, Meeting_id, Join_time) VALUES (%s, %s, NOW())"
             self.execute_query(query, (holder_id, meeting_id))
-            
+
             return meeting_id
-            
         except Exception as e:
-            print(f"Error creating meeting: {e}")
+            print(f"Error creating meeting in database: {e}")  # 新增錯誤打印
             return None
+
+
 
     def check_meeting_availability(self, meeting_id):
         query = """
