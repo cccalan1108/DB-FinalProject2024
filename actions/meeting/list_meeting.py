@@ -36,7 +36,7 @@ class ListMeetingAction:
                 meeting = {
                     "meeting_id": row["meeting_id"],
                     "content": row["content"],
-                    "event_date": row["event_date"],
+                    "event_date": row["event_date"].strftime("%a, %d %b %Y") if isinstance(row["event_date"], (date, datetime)) else row["event_date"],
                     "start_time": row["start_time"],
                     "end_time": row["end_time"],
                     "event_city": row["event_city"],
@@ -77,3 +77,23 @@ def list_meeting_route():
 @list_meeting.route('/list_meeting_data', methods=['GET'])
 def list_meeting_data():
     return list_meeting_action.exec()  # 仍然返回 JSON 數據
+
+
+@list_meeting.route('/join_meeting/<int:meeting_id>', methods=['POST'])
+def join_meeting(meeting_id):
+    try:
+        # 在這裡加入邏輯，確認使用者可以加入會議，並更新資料庫
+        # 例如：檢查會議是否存在，參與人數是否已滿等
+        meeting = db_manager.get_meeting_by_id(meeting_id)
+        if not meeting:
+            return jsonify({"status": "error", "message": "Meeting not found"}), 404
+
+        if meeting["num_participant"] >= meeting["max_participant"]:
+            return jsonify({"status": "error", "message": "Meeting is full"}), 400
+
+        # 加入會議邏輯（例如，更新 num_participant）
+        db_manager.join_meeting(meeting_id)  # 實現這個函數來更新資料庫
+
+        return jsonify({"status": "success", "message": f"Joined meeting {meeting_id} successfully!"}), 200
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500

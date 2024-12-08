@@ -4,7 +4,7 @@
     position: relative; /* 為方便居中設置相對定位 */
     height: 80px; /* 頁首高度 */
     padding: 0 20px; /* 左右內邊距 */
-    background-color: #01d4fe; /* 背景顏色 */
+    background-color: #d0ab3a; /* 背景顏色 */
     border-bottom: 1px solid #ddd;
     width: 100%; /* 填滿頁面寬度 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加輕微陰影 */
@@ -49,10 +49,10 @@
 .box-container {
     width: 450px;
     height: 350px;
-    background-color: #ffffff; /* 白色背景 */
+    background-color: #edeae4; /* 白色背景 */
     padding: 40px;
     border-radius: 10px; /* 圓角設計 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 輕微陰影 */
+    box-shadow: 0 4px 8px rgba(89, 89, 89, 0.783); /* 輕微陰影 */
     display: flex;
     justify-content: center; 
     flex-direction: column; /* 垂直排列內部元素 */
@@ -64,7 +64,7 @@
     text-align: center;
     font-size: 24px;
     font-weight: bold;
-    color: #050505; /* 藍色標題 */
+    color: #4c4c4c; /* 藍色標題 */
     margin-bottom: 20px;
 }
 
@@ -110,7 +110,7 @@
     width: 25%; /* 設定按鈕寬度 */
     padding: 6px; /* 按鈕內邊距 */
     font-size: 16px; /* 字體大小 */
-    background-color: #3aa7f0; /* 藍色背景 */
+    background-color: #7c765f; /* 藍色背景 */
     color: white; /* 白色文字 */
     border: none;
     border-radius: 8px; /* 圓角設計 */
@@ -119,7 +119,7 @@
 }
 
 .submit-button:hover {
-    background-color: #3399e6; /* 鼠標懸停時改變背景色 */
+    background-color: #635f4f; /* 鼠標懸停時改變背景色 */
     transform: scale(1.05); /* 懸停時放大 */
 }
 
@@ -136,12 +136,12 @@
 }
 
 .register-link a {
-    color: #000000; /* 藍色超連結 */
+    color: #7b5617; /* 藍色超連結 */
     text-decoration: none; /* 移除下劃線 */
     font-weight: bold; /* 加粗字體 */
     transition: color 0.3s; /* 懸停動畫 */
 }
 
 .register-link a:hover {
-    color: #61a9e0; /* 懸停時變深藍色 */
+    color: #7c765f; /* 懸停時變深藍色 */
 }

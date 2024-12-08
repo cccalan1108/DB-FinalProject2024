@@ -1,29 +1,39 @@
+/* Overall Layout */
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(120deg, #f0f4ff, #e4e9fd);
+    background: linear-gradient(120deg, #d5d2c9, #e4e9fd);
     margin: 0;
     padding: 0;
     color: #333;
 }
 
+/* Header */
 .header {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 10px 20px;
+    background-color: #d0ab3a;
+    color: white;
 }
 
-.header h1 {
+.header .logo h1 {
     margin: 0;
-    font-size: 24px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.header .title h2 {
+    margin: 0;
+    font-size: 26px;
+    text-align: center;
+    flex: 1;
 }
 
 .back-button {
-    background-color: white;
-    color: #4CAF50;
-    border: 1px solid #4CAF50;
+    background-color: #7c7668;
+    color: #dddcda;
+    border: 1px solid #625c4e;
     padding: 8px 15px;
     border-radius: 20px;
     font-size: 14px;
@@ -32,10 +42,11 @@ body {
 }
 
 .back-button:hover {
-    background-color: #4CAF50;
+    background-color: #706655;
     color: white;
 }
 
+/* Meetings Container */
 .meetings-container {
     display: flex;
     flex-wrap: wrap;
@@ -44,8 +55,9 @@ body {
     justify-content: center;
 }
 
+/* Meeting Card */
 .meeting-card {
-    background-color: white;
+    background-color: #e1e1df;
     border: 1px solid #ddd;
     border-radius: 15px;
     width: 280px;
@@ -61,7 +73,7 @@ body {
 
 .meeting-card h2 {
     font-size: 22px;
-    color: #333;
+    color: rgb(68, 66, 66);
     margin: 0 0 10px;
 }
 
@@ -73,12 +85,13 @@ body {
 }
 
 .meeting-card p strong {
-    color: #4CAF50;
+    color: #9a5e2d;
 }
 
+
 .join-button {
-    display: inline-block;
-    background-color: #4CAF50;
+    display: block; /* 將按鈕設置為塊級元素 */
+    background-color: #a19276;
     color: white;
     padding: 8px 12px;
     border: none;
@@ -86,10 +99,10 @@ body {
     text-align: center;
     font-size: 14px;
     cursor: pointer;
-    margin-top: 10px;
+    margin: 20px auto 0; /* 自動水平居中，並增加上間距 */
     transition: background-color 0.3s ease;
 }
 
 .join-button:hover {
-    background-color: #45a049;
+    background-color: #706655;
 }

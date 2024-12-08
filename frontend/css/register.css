@@ -4,8 +4,8 @@
     position: relative; /* 為方便居中設置相對定位 */
     height: 80px; /* 頁首高度 */
     padding: 0 20px; /* 左右內邊距 */
-    background-color: #01d4fe; /* 背景顏色 */
-    border-bottom: 1px solid rgb(154, 154, 154);
+    background-color: #d0ab3a; /* 背景顏色 */
+    border-bottom: 1px solid rgb(197, 196, 196);
     width: 100%; /* 填滿頁面寬度 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加輕微陰影 */
 }
@@ -98,26 +98,47 @@
 
 .input-field input:focus,
 .input-field select:focus {
-    border-color: #3aa7f0;
+    border-color: #b9b9b9;
 }
 
-/* Submit Button */
+/* Center the submit button */
 .submit-button {
-    grid-column: span 2; /* 按鈕占據整行 */
-    width: 20%; /* 寬度占滿容器 */
+    grid-column: span 2; /* Adjust this for full row alignment in grid */
+    margin: 20px auto; /* Center horizontally */
+    display: block; /* Make it a block element */
+    width: 30%; /* Adjust button width */
     padding: 15px;
     font-size: 18px;
     font-weight: bold;
-    background-color: #3aa7f0;
+    background-color: #786f60;
     color: rgb(184, 184, 184);
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    margin-top: 20px;
 }
 
 .submit-button:hover {
-    background-color: #3399e6;
+    background-color: #dbd489;
     transform: scale(1.03);
+}
+
+/* Back to Login button */
+.back-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #786f60;
+    color: #bfbdb9;
+    border: 1px solid #786f60;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 10px;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #dbd489;
+    color: white;
 }

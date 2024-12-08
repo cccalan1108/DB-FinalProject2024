@@ -9,8 +9,13 @@
 </head>
 <body>
     <header class="header">
-        <h1>Meeting List</h1>
-        <button class="back-button" onclick="navigateTo('lobby')">Back to Lobby</button>
+        <div class="logo" onclick="navigateTo('lobby')" style="cursor: pointer;">
+            <h1>Bello!</h1>
+        </div>
+        <div class="title">
+            <h2>LIST MEETING</h2>
+        </div>
+        <button class="back-button" onclick="navigateTo('lobby')">Home</button>
     </header>
     <main>
         <div id="meetings-container" class="meetings-container">
@@ -42,6 +47,7 @@
 
                 card.innerHTML = `
                     <h2>${meeting.content}</h2>
+                    <p><strong>Meeting ID:</strong> ${meeting.meeting_id}</p>
                     <p><strong>Date:</strong> ${meeting.event_date}</p>
                     <p><strong>Time:</strong> ${meeting.start_time} - ${meeting.end_time}</p>
                     <p><strong>City:</strong> ${meeting.event_city}</p>
@@ -50,10 +56,26 @@
                     <p><strong>Participants:</strong> ${meeting.num_participant} / ${meeting.max_participant}</p>
                     <p><strong>Status:</strong> ${meeting.status}</p>
                     <p><strong>Languages:</strong> ${meeting.languages.join(', ')}</p>
+                    <button class="join-button" onclick="joinMeeting(${meeting.meeting_id})">Join</button>
                 `;
 
                 container.appendChild(card);
             });
+        }
+
+        async function joinMeeting(meetingId) {
+            try {
+                const response = await fetch(`/join_meeting/${meetingId}`, { method: 'POST' });
+                const result = await response.json();
+                if (result.status === 'success') {
+                    alert(`Successfully joined meeting ${meetingId}!`);
+                } else {
+                    alert(`Failed to join meeting: ${result.message}`);
+                }
+            } catch (error) {
+                console.error(`Error joining meeting ${meetingId}:`, error);
+                alert('An error occurred while trying to join the meeting.');
+            }
         }
 
         function navigateTo(action) {

@@ -5,7 +5,7 @@
     position: relative; /* 為方便居中設置相對定位 */
     height: 80px; /* 頁首高度 */
     padding: 0 20px; /* 左右內邊距 */
-    background-color: #01d4fe; /* 背景顏色 */
+    background-color: #d0ab3a; /* 背景顏色 */
     border-bottom: 1px solid #ddd;
     width: 100%; /* 填滿頁面寬度 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加輕微陰影 */

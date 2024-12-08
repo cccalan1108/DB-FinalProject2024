@@ -9,14 +9,17 @@
 
 </head>
 <body class="login-page">
+    
     <header class="header">
         <div class="logo">
-            <h1>Bello</h1>
+            <h1>Bello!</h1>
         </div>
         <div class="account-title">
-            <h2>FUCKING REGISTER</h2>
+            <h2>REGISTER</h2>
         </div>
+        <button class="back-button" onclick="navigateTo('')">Back to Login</button>
     </header>
+    
 
     <!-- Main Content -->
     <main class="main-container">  
@@ -24,7 +27,7 @@
             <!-- Register Section -->
             <div class="box login-box">
                 <div class="section login-header">
-                    <h3>Register</h3>
+                    <h3>Join Us!</h3>
                 </div>
 
                 <!-- Register Form Section -->
@@ -66,8 +69,8 @@
                         <input id="birthday" name="birthday" type="date" required>
                     </div>
                     <div class="input-field">
-                        <label for="admin_code">admin Code</label>
-                        <input id="admin_code" name="admin_code" type="text" placeholder="(Not necessary)">
+                        <label for="admin_code">Admin Code</label>
+                        <input id="admin_code" name="admin_code" type="text" placeholder="(Only for Admin 僅限管理員)">
                     </div>
                     <div class="input-field">
                         <label for="gender">Gender</label>
@@ -86,5 +89,11 @@
 
     <!-- script -->
     <script src="/script/register.js"></script>
+    <script>
+        function navigateTo(page) {
+            window.location.href = `/${page}`;
+        }
+    </script>
+    
 </body>
 </html>
