@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bello Lobby</title>
-    <link rel="stylesheet" href="../css/lobby.css">
+    <link rel="stylesheet" href="../css/create_meeting.css">
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -24,64 +24,81 @@
     <!-- Main Content -->
     <main class="main-container">  
         <div class="options-container">
-            <h2>Welcome to the Lobby</h2>
-            <ul class="options-list">
-                <li><button onclick="navigateTo('edit-profile')">Edit Profile</button></li>
-
-                <li><button id="create-meeting-button">Create Meeting</button></li>
-                <!-- create meeting 新增會議創建表單 -->
-                <div id="create-meeting-form" style="display: none;">
-                    <h3>Create a Meeting</h3>
-                    <label for="meeting-type">Meeting Type:</label>
-                    <input type="text" id="meeting-type" placeholder="e.g., 午餐"><br>
-
-                    <label for="languages">Languages (comma-separated):</label>
-                    <input type="text" id="languages" placeholder="e.g., 中文, 英文"><br>
-
-                    <label for="city">City:</label>
-                    <input type="text" id="city" placeholder="City"><br>
-
-                    <label for="place">Place:</label>
-                    <input type="text" id="place" placeholder="Place"><br>
-
-                    <label for="date">Date:</label>
-                    <input type="date" id="date"><br>
-
-                    <label for="start-time">Start Time:</label>
-                    <input type="time" id="start-time"><br>
-
-                    <label for="end-time">End Time:</label>
-                    <input type="time" id="end-time"><br>
-
-                    <label for="max-participants">Max Participants:</label>
-                    <input type="number" id="max-participants" placeholder="e.g., 10"><br>
-
-                    <button onclick="submitMeeting()">Submit</button>
+            <h2>Create Meeting</h2>
+                <div class="scrollable-content">
+                    <form class="section account-section" id="meeting-form" action="/submit-create-meeting" method="POST">
+                        <div class="input-field">
+                            <label for="meeting-type">Meeting Type:</label>
+                            <input type="text" id="meeting-type" placeholder="e.g., 午餐"><br>
+                        </div>
+                        <div class="input-field">
+                            <label for="languages">Languages (comma-separated):</label>
+                            <input type="text" id="languages" placeholder="e.g., 中文, 英文"><br>
+                        </div>
+                        <div class="input-field">
+                            <label for="city">City:</label>
+                            <input type="text" id="city" placeholder="City"><br>
+                        </div>
+                        <div class="input-field">
+                            <label for="place">Place:</label>
+                            <input type="text" id="place" placeholder="Place"><br>
+                        </div>
+                        <div class="input-field">
+                            <label for="date">Date:</label>
+                            <input type="date" id="date"><br>
+                        </div>
+                        <div class="input-field">
+                            <label for="max-participants">Max Participants:</label>
+                            <input type="number" id="max-participants" placeholder="e.g., 10"><br>
+                        </div>
+                        <div class="input-field">
+                            <label for="start-time">Start Time:</label>
+                            <select id="start-time">
+                                <option value="">Select Start Time</option>
+                                <option value="08:00">08:00</option>
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="12:00">12:00</option>
+                                <option value="13:00">13:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                                <option value="18:00">18:00</option>
+                                <option value="19:00">19:00</option>
+                                <option value="20:00">20:00</option>
+                            </select><br>
+                        </div>
+                        <div class="input-field">
+                            <label for="end-time">End Time:</label>
+                            <select id="end-time">
+                                <option value="">Select End Time</option>
+                                <option value="08:00">08:00</option>
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="12:00">12:00</option>
+                                <option value="13:00">13:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                                <option value="18:00">18:00</option>
+                                <option value="19:00">19:00</option>
+                                <option value="20:00">20:00</option>
+                            </select><br>
+                        </div>
+                        <button class="submit-button" type="submit">Submit</button>
+                    </form>
                 </div>
-
-
-                <li><button onclick="navigateTo('list-meeting')">List Meeting</button></li>
-                <!-- Meeting List Container -->
-                <div id="list-meeting-container" style="display: none;">
-                    <h3>Available Meetings</h3>
-                    <ul id="meeting-list"></ul>
-                </div>
-                <li><button onclick="navigateTo('join-meeting')">Join Meeting</button></li>
-                <li><button onclick="navigateTo('leave-meeting')">Leave Meeting</button></li>
-                <li><button onclick="navigateTo('cancel-meeting')">Cancel Meeting</button></li>
-                <li><button onclick="navigateTo('finish-meeting')">Finish Meeting</button></li>
-                <li><button onclick="navigateTo('view-history')">View History Meeting</button></li>
-                <li><button onclick="navigateTo('private-chat')">Private Chat</button></li>
-                <li><button onclick="navigateTo('meeting-chat')">Meeting Chat Room</button></li>
-                <li><button onclick="exitApp()">Exit</button></li>
-            </ul>
-
+        </div>
             
         </div>
     </main>
 
     <!-- Script -->
-    <script src="/script/lobby.js"></script>
+    <script src="/script/create_meeting.js"></script>
     <!-- <script>
         // Navigation function to handle button clicks
         function navigateTo(action) {

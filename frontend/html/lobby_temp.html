@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bello Lobby</title>
-    <link rel="stylesheet" href="../css/lobby.css">
+    <link rel="stylesheet" href="../css/lobby_temp.css">
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -25,29 +25,23 @@
     <main class="main-container">  
         <div class="options-container">
             <h2>Welcome to the Lobby</h2>
-            <a href="https://example.com" class="button">Create Meeting</a>
-            <a href="https://example.com" class="button">List Meeting</a>
-            <a href="https://example.com" class="button">Join Meeting</a>
-            <a href="https://example.com" class="button">Leave Meeting</a>
-            <a href="https://example.com" class="button">Cancel Meeting</a>
-            <a href="https://example.com" class="button">Finish Meeting</a>
-            <a href="https://example.com" class="button">View History Meeting</a>
-            <a href="https://example.com" class="button">Private Chat</a>
-            <a href="https://example.com" class="button">Meeting Chat Room</a>
-            <a href="https://example.com" class="button">Exit</a>
-            <li><button onclick="navigateTo('list-meeting')">List Meeting</button></li>
-            <li><button onclick="navigateTo('join-meeting')">Join Meeting</button></li>
-            <li><button onclick="navigateTo('leave-meeting')">Leave Meeting</button></li>
-            <li><button onclick="navigateTo('cancel-meeting')">Cancel Meeting</button></li>
-            <li><button onclick="navigateTo('finish-meeting')">Finish Meeting</button></li>
-            <li><button onclick="navigateTo('view-history')">View History Meeting</button></li>
-            <li><button onclick="navigateTo('private-chat')">Private Chat</button></li>
-            <li><button onclick="navigateTo('meeting-chat')">Meeting Chat Room</button></li>
-            <li><button onclick="exitApp()">Exit</button></li>
+            <div class="scrollable-content">
+                <a href="edit-profile.html" class="button">Edit Profile</a>
+                <a href="create_meeting.html" class="button">Create Meeting</a>
+                <a href="list_meeting" class="button">List Meeting</a>
+                <a href="leave_meeting" class="button">Join Meeting</a>
+                <a href="leave_meeting" class="button">Leave Meeting</a>
+                <a href="cancel_meeting" class="button">Cancel Meeting</a>
+                <a href="finish_meeting" class="button">Finish Meeting</a>
+                <a href="view_history" class="button">View History Meeting</a>
+                <a href="private_chat" class="button">Private Chat</a>
+                <a href="meeting_chat" class="button">Meeting Chat Room</a>
+                <a href="javascript:void(0);" id="exit-button" class="button">Exit</a>
+            </div>
         </div>
     </main>
 
     <!-- Script -->
-    <script src="/script/lobby.js"></script>
+    <script src="/script/lobby_temp.js"></script>
 </body>
 </html>

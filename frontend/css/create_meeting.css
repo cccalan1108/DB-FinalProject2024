@@ -70,24 +70,53 @@
 }
 
 
-/* 按鈕 */
-.button {
-    width: 250px; 
-    display: inline-block;
-    padding: 10px 20px;
-    border: 2px solid #6b5f41;
-    background-color: rgb(234, 225, 208);
-    color: #6b5f41;
-    text-decoration: none;
-    border-radius: 5px;
-    text-align: center; 
-    transition: background-color 0.3s ease;
-    font-family: 'Arial', sans-serif;
-    font-weight: bold; 
-    margin: 10px 0; /* 上下間距設置為 10px */
+/* Input Field */
+.input-field {
+    display: flex;
+    flex-direction: column;
 }
 
-.button:hover {
-    background-color: #6b5f41; /* 滑鼠懸停效果 */
-    color: white; /* 滑鼠懸停時文字變為白色 */
+/* Label 樣式 */
+.input-field label {
+    font-size: 16px;
+    color: #333333;
+    margin-bottom: 5px;
 }
+
+/* Input and Select 樣式 */
+.input-field input,
+.input-field select {
+    padding: 15px;
+    font-size: 14px;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.input-field input:focus,
+.input-field select:focus {
+    border-color: #3aa7f0;
+}
+
+/* Submit Button */
+.submit-button {
+    grid-column: span 2; /* 按鈕占據整行 */
+    width: 50%; /* 寬度占滿容器 */
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #3aa7f0;
+    color: rgb(184, 184, 184);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 20px;
+}
+
+.submit-button:hover {
+    background-color: #3399e6;
+    transform: scale(1.03);
+}
+

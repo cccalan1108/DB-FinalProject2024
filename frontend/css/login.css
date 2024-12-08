@@ -48,8 +48,13 @@
 /* Box Container */
 .box-container {
     width: 450px;
+<<<<<<< HEAD
     height: 350px;
     background-color: #edeae4; /* 白色背景 */
+=======
+    height: auto;
+    background-color: #ffffff; /* 白色背景 */
+>>>>>>> a341c5fcaca61a8c1e8e4f4eea530f361bb1a4fe
     padding: 40px;
     border-radius: 10px; /* 圓角設計 */
     box-shadow: 0 4px 8px rgba(89, 89, 89, 0.783); /* 輕微陰影 */
