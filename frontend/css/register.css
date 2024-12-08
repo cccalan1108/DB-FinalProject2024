@@ -5,7 +5,7 @@
     height: 80px; /* 頁首高度 */
     padding: 0 20px; /* 左右內邊距 */
     background-color: #01d4fe; /* 背景顏色 */
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid rgb(154, 154, 154);
     width: 100%; /* 填滿頁面寬度 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加輕微陰影 */
 }
@@ -58,7 +58,7 @@
     width: 100%;
     height: 85%;
     max-width: 2000px; /* 限制最大寬度 */
-    background-color: #ffffff;
+    background-color: #a7a7a7;
     padding: 40px;
     border-radius: 12px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
@@ -109,7 +109,7 @@
     font-size: 18px;
     font-weight: bold;
     background-color: #3aa7f0;
-    color: white;
+    color: rgb(184, 184, 184);
     border: none;
     border-radius: 8px;
     cursor: pointer;
