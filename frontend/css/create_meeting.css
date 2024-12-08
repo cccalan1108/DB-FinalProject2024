@@ -1,0 +1,122 @@
+/* head */
+.header {
+    display: flex; /* 使用 Flexbox */
+    align-items: center; /* 垂直居中 */
+    position: relative; /* 為方便居中設置相對定位 */
+    height: 80px; /* 頁首高度 */
+    padding: 0 20px; /* 左右內邊距 */
+    background-color: #01d4fe; /* 背景顏色 */
+    border-bottom: 1px solid #ddd;
+    width: 100%; /* 填滿頁面寬度 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加輕微陰影 */
+}
+
+.logo {
+    flex: 0 0 auto; /* 保持 logo 靠左，不拉伸 */
+}
+
+.account-title {
+    position: absolute; /* 絕對定位 */
+    left: 50%; /* 水平居中參考 */
+    transform: translateX(-50%); /* 偏移自身寬度的一半，實現真正居中 */
+    text-align: center; /* 文字居中 */
+}
+
+/* Main Container */
+.main-container {
+    width: 100%;
+    height: 100%;
+    display: flex; /* 彈性佈局讓內部內容居中 */
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+}
+
+/* Box Container */
+.options-container {
+    width: 400px;
+    align-items: center; /* 水平居中 */
+    background-color: #ffffff; /* 白色背景 */
+    padding: 30px;
+    border-radius: 10px; /* 圓角設計 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 輕微陰影 */
+    display: flex;
+    justify-content: center; 
+    flex-direction: column; /* 垂直排列內部元素 */
+    text-align: center; /* 內容居中 */
+    max-height: 700px; 
+}
+
+/* 滾動內容區域 */
+.scrollable-content {
+    width: 100%; 
+    max-height: 500px; /* 限制滾動區域高度 */
+    overflow-y: auto; /* 垂直滾動 */
+    padding-right: 10px; /* 增加右側內邊距，避免滾動條壓住文字 */
+    box-sizing: border-box; /* 包含內邊距與邊框 */
+}
+
+.logo h1 {
+    font-size: 36px; /* 更大字體 */
+    color: white; /* 白色字體 */
+    font-family: 'Arial', sans-serif; /* 字體樣式 */
+    font-weight: bold; /* 加粗字體 */
+}
+
+.options-container h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333; /* 深灰色文字 */
+    margin-bottom: 20px; /* 與按鈕分隔 */
+}
+
+
+/* Input Field */
+.input-field {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Label 樣式 */
+.input-field label {
+    font-size: 16px;
+    color: #333333;
+    margin-bottom: 5px;
+}
+
+/* Input and Select 樣式 */
+.input-field input,
+.input-field select {
+    padding: 15px;
+    font-size: 14px;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.input-field input:focus,
+.input-field select:focus {
+    border-color: #3aa7f0;
+}
+
+/* Submit Button */
+.submit-button {
+    grid-column: span 2; /* 按鈕占據整行 */
+    width: 50%; /* 寬度占滿容器 */
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #3aa7f0;
+    color: rgb(184, 184, 184);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 20px;
+}
+
+.submit-button:hover {
+    background-color: #3399e6;
+    transform: scale(1.03);
+}
+
