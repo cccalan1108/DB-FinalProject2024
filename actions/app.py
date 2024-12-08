@@ -45,6 +45,9 @@ def index():
 def lobby():
     return render_template('lobby.html')
 
+@app.route('/logout')
+def returnToLogin():
+    return render_template('login.html')
 
 if __name__ == '__main__':
     app.run(debug = True)
