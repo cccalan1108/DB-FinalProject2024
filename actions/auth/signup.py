@@ -14,7 +14,7 @@ class SignUpAction(Action):
     def __init__(self, db_manager):
         if not db_manager:
             raise ValueError("DatabaseManager instance is required")
-        self.db_manager = db_manager
+        self.db_manager = db_manager()
 
     def exec(self):
         try:
@@ -33,7 +33,7 @@ class SignUpAction(Action):
             nationality = request.form.get('nationality')
             phone = request.form.get('phone')             
             email = request.form.get('email')         
-            sex = request.form.get('gender')
+            sex = request.form.get('sex')
             birthday = request.form.get('birthday')
             city = request.form.get('city')
             admin_code = request.form.get('admin_code')
