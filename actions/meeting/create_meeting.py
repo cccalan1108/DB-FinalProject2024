@@ -113,6 +113,7 @@ class CreateMeetingAction:
             # 建立會議
             meeting_id = self.db_manager.create_meeting(
                 holder_id=data['holder_id'],
+                #holder_id=d123,
                 content=data['content'],
                 event_date=data['date'],
                 start_time=data['start_time'],
@@ -141,4 +142,8 @@ create_meeting_action = CreateMeetingAction(db_manager)
 # 註冊路由
 @create_meeting.route('/create-meeting', methods=['POST'])
 def create_meeting_route():
+    print("Received POST request to /create-meeting")  # 確認路由是否被調用
+    data = request.json
+    print("Received data:", data)  # 確認接收到的請求數據
     return create_meeting_action.exec()
+

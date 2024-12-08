@@ -1,28 +1,96 @@
-document.getElementById('create-meeting-button').addEventListener('click', async () => {
+// document.getElementById('create-meeting-button').addEventListener('click', async () => {
+//     const meetingData = {
+//         content: document.getElementById('meeting-type').value,
+//         languages: document.getElementById('languages').value.split(','), // 多語言以逗號分隔
+//         city: document.getElementById('city').value,
+//         place: document.getElementById('place').value,
+//         date: document.getElementById('date').value,
+//         start_time: document.getElementById('start-time').value,
+//         end_time: document.getElementById('end-time').value,
+//         max_participants: document.getElementById('max-participants').value,
+//         holder_id: localStorage.getItem('user_id') // 假設用戶 ID 保存在 localStorage
+//     };
+
+//     try {
+//         const response = await fetch('/create-meeting', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify(meetingData)
+//         });
+
+//         const result = await response.json();
+//         if (result.status === 'success') {
+//             alert(result.message);
+//         } else {
+//             alert(`Error: ${result.message}`);
+//         }
+//     } catch (error) {
+//         console.error('Error:', error);
+//         alert('An unexpected error occurred.');
+//     }
+// });
+
+
+
+// 綁定按鈕事件
+document.getElementById('list-meeting-button').addEventListener('click', () => {
+    const listContainer = document.getElementById('list-meeting-container');
+    listContainer.style.display = 'block';
+    fetchMeetings();
+});
+
+
+
+// 綁定事件
+document.getElementById('submit-meeting-button').addEventListener('click', async () => {
     const meetingData = {
-        content: document.getElementById('meeting-type').value,
-        languages: document.getElementById('languages').value.split(','), // 多語言以逗號分隔
-        city: document.getElementById('city').value,
-        place: document.getElementById('place').value,
+        content: document.getElementById('meeting-type').value.trim(),
+        languages: document.getElementById('languages').value
+            .split(',')
+            .map(lang => lang.trim())
+            .filter(lang => lang !== ''),
+        city: document.getElementById('city').value.trim(),
+        place: document.getElementById('place').value.trim(),
         date: document.getElementById('date').value,
         start_time: document.getElementById('start-time').value,
         end_time: document.getElementById('end-time').value,
-        max_participants: document.getElementById('max-participants').value,
-        holder_id: localStorage.getItem('user_id') // 假設用戶 ID 保存在 localStorage
+        max_participants: document.getElementById('max-participants').value.trim(),
+        holder_id: localStorage.getItem('holder_id')
     };
 
+    if (
+        !meetingData.content ||
+        !meetingData.city ||
+        !meetingData.place ||
+        !meetingData.date ||
+        !meetingData.start_time ||
+        !meetingData.end_time ||
+        !meetingData.max_participants ||
+        !meetingData.holder_id
+    ) {
+        alert('Please fill in all required fields!');
+        return;
+    }
+
     try {
+        console.log("Submitting meeting data:", meetingData); // 調試用
         const response = await fetch('/create-meeting', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(meetingData)
         });
+        console.log("Response received:", response); // 查看是否有回應
+
 
         const result = await response.json();
+        console.log("Parsed response:", result); // 確認返回的結果
+
         if (result.status === 'success') {
             alert(result.message);
+            clearForm();
+            document.getElementById('create-meeting-form').style.display = 'none';
         } else {
             alert(`Error: ${result.message}`);
         }
@@ -32,72 +100,7 @@ document.getElementById('create-meeting-button').addEventListener('click', async
     }
 });
 
-
-// // 等待 DOM 載入完成後綁定事件
-// document.addEventListener('DOMContentLoaded', () => {
-//     document.getElementById('create-meeting-button').addEventListener('click', () => {
-//         const form = document.getElementById('create-meeting-form');
-//         form.style.display = form.style.display === 'none' || !form.style.display ? 'block' : 'none';
-//     });
-// });
-
-
-async function submitMeeting() {
-    const meetingData = {
-        content: document.getElementById('meeting-type').value.trim(),
-        languages: document.getElementById('languages').value
-            .split(',')
-            .map(lang => lang.trim())
-            .filter(lang => lang !== ''), // 過濾掉空的語言項目
-        city: document.getElementById('city').value.trim(),
-        place: document.getElementById('place').value.trim(),
-        date: document.getElementById('date').value,
-        start_time: document.getElementById('start-time').value,
-        end_time: document.getElementById('end-time').value,
-        max_participants: document.getElementById('max-participants').value.trim(),
-        holder_id: localStorage.getItem('user_id') // 假設用戶 ID 存在 localStorage
-    };
-
-    // 檢查基本資料是否完整
-    if (
-        !meetingData.content ||
-        !meetingData.city ||
-        !meetingData.place ||
-        !meetingData.date ||
-        !meetingData.start_time ||
-        !meetingData.end_time ||
-        !meetingData.max_participants
-    ) {
-        alert('Please fill in all required fields!');
-        return;
-    }
-
-    try {
-        const response = await fetch('/create-meeting', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(meetingData)
-        });
-
-        const result = await response.json();
-        if (result.status === 'success') {
-            alert(result.message);
-            // 清空表單
-            clearForm();
-            // 隱藏表單
-            document.getElementById('create-meeting-form').style.display = 'none';
-        } else {
-            alert(`Error: ${result.message}`);
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('An unexpected error occurred.');
-    }
-}
-
-// 清空表單的輔助函式
+// 清空表單函式
 function clearForm() {
     document.getElementById('meeting-type').value = '';
     document.getElementById('languages').value = '';
@@ -107,9 +110,8 @@ function clearForm() {
     document.getElementById('start-time').value = '';
     document.getElementById('end-time').value = '';
     document.getElementById('max-participants').value = '';
+    document.getElementById('holder-id').value = '';
 }
-
-
 
 
 
@@ -148,10 +150,3 @@ async function fetchMeetings() {
         alert('An unexpected error occurred.');
     }
 }
-
-// 綁定按鈕事件
-document.getElementById('list-meeting-button').addEventListener('click', () => {
-    const listContainer = document.getElementById('list-meeting-container');
-    listContainer.style.display = 'block';
-    fetchMeetings();
-});
