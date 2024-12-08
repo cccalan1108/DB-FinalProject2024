@@ -56,9 +56,8 @@ class DatabaseManager:
         return tabulate(rows, headers=columns, tablefmt="github")
 
     def check_account_exists(self, account):
-
         query = 'SELECT COUNT(*) FROM "USER" WHERE Account = %s'
-        result = self.execute_query(query, (account,))
+        result = self.execute_query(query, account)
         return result[0][0] > 0 if result else False
 
     def create_user(self, **user_data):
@@ -66,7 +65,7 @@ class DatabaseManager:
             query = 'SELECT COALESCE(MAX(User_id), 0) + 1 FROM "USER"'
             result = self.execute_query(query)
             if not result:
-                return False
+                return {'status': "error", 'message': "Fail to execute_query"}
             user_id = result[0][0]
 
             insertUser_query =  """
