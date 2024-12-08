@@ -21,7 +21,6 @@ app.register_blueprint(list_meeting)
 def register():
     return render_template('register.html')
 
-
 @app.route('/')
 def index():
     return render_template('login.html')
