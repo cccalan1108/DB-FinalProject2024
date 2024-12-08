@@ -41,6 +41,11 @@ def register():
 def index():
     return render_template('login.html')
 
+@app.route('/lobby')
+def lobby():
+    return render_template('lobby.html')
+
+
 
 if __name__ == '__main__':
     app.run(debug = True)
