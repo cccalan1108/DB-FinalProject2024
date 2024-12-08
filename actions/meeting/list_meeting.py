@@ -17,6 +17,7 @@
 
 
 from flask import Blueprint, jsonify
+from datetime import date, time, datetime
 from DB_utils import DatabaseManager
 
 list_meeting = Blueprint("list_meeting", __name__)
@@ -27,14 +28,13 @@ class ListMeetingAction:
 
     def exec(self):
         try:
-            # 獲取所有會議資料
             meetings = self.db_manager.get_all_meetings()
             if not meetings:
                 return jsonify({"status": "error", "message": "No available meetings found"}), 404
 
-            # 按欄位順序轉換為 JSON 格式
-            meetings_list = [
-                {
+            meetings_list = []
+            for row in meetings:
+                meeting = {
                     "meeting_id": row["meeting_id"],
                     "content": row["content"],
                     "event_date": row["event_date"],
@@ -46,15 +46,14 @@ class ListMeetingAction:
                     "num_participant": row["num_participant"],
                     "max_participant": row["max_participant"],
                     "holder_name": row["holder_name"],
-                    "languages": row["languages"].split(", ") if row["languages"] else []
+                    "languages": [lang.encode('latin1').decode('utf-8') for lang in row["languages"]] if row["languages"] else []
                 }
-                for row in meetings
-            ]
+                meetings_list.append(meeting)
 
             return jsonify({"status": "success", "meetings": meetings_list}), 200
         except Exception as e:
-            # 捕獲錯誤並返回錯誤訊息
             return jsonify({"status": "error", "message": str(e)}), 500
+
 
 
 # 初始化 DatabaseManager

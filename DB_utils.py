@@ -1,7 +1,7 @@
 import psycopg2
 from config import Config
 from tabulate import tabulate
-from datetime import datetime
+from datetime import date, time, datetime
 from flask import jsonify
 
 class DatabaseManager:
@@ -214,32 +214,92 @@ class DatabaseManager:
             print(f"Error updating user detail: {e}")
             return False
     
+    # def get_all_meetings(self):
+    #     query = """
+    #             SELECT 
+    #                 m.Meeting_id,
+    #                 m.Content,
+    #                 m.Event_date,
+    #                 m.Start_time,
+    #                 m.End_time,
+    #                 m.Event_city,
+    #                 m.Event_place,
+    #                 m.Status,
+    #                 m.Num_participant,
+    #                 m.Max_num_participant,
+    #                 u.User_name as holder_name,
+    #                 string_agg(ml.Language, ', ') as languages
+    #             FROM MEETING m
+    #             JOIN "USER" u ON m.Holder_id = u.User_id
+    #             LEFT JOIN MEETING_LANGUAGE ml ON m.Meeting_id = ml.Meeting_id
+    #             WHERE m.Status = 'Ongoing'
+    #             GROUP BY m.Meeting_id, m.Content, m.Event_date, m.Start_time, m.End_time,
+    #                     m.Event_city, m.Event_place, m.Status, m.Num_participant, 
+    #                     m.Max_num_participant, u.User_name
+    #             ORDER BY m.Event_date, m.Start_time
+    #             """
+    #     self.cursor.execute(query)
+    #     return self.print_table(self.cursor)
     def get_all_meetings(self):
         query = """
-                SELECT 
-                    m.Meeting_id,
-                    m.Content,
-                    m.Event_date,
-                    m.Start_time,
-                    m.End_time,
-                    m.Event_city,
-                    m.Event_place,
-                    m.Status,
-                    m.Num_participant,
-                    m.Max_num_participant,
-                    u.User_name as holder_name,
-                    string_agg(ml.Language, ', ') as languages
-                FROM MEETING m
-                JOIN "USER" u ON m.Holder_id = u.User_id
-                LEFT JOIN MEETING_LANGUAGE ml ON m.Meeting_id = ml.Meeting_id
-                WHERE m.Status = 'Ongoing'
-                GROUP BY m.Meeting_id, m.Content, m.Event_date, m.Start_time, m.End_time,
-                        m.Event_city, m.Event_place, m.Status, m.Num_participant, 
-                        m.Max_num_participant, u.User_name
-                ORDER BY m.Event_date, m.Start_time
-                """
+            SELECT 
+                m.Meeting_id as meeting_id,
+                m.Content as content,
+                m.Event_date as event_date,
+                m.Start_time as start_time,
+                m.End_time as end_time,
+                m.Event_city as event_city,
+                m.Event_place as event_place,
+                m.Status as status,
+                m.Num_participant as num_participant,
+                m.Max_num_participant as max_participant,
+                u.User_name as holder_name,
+                string_agg(ml.Language, ', ') as languages
+            FROM MEETING m
+            JOIN "USER" u ON m.Holder_id = u.User_id
+            LEFT JOIN MEETING_LANGUAGE ml ON m.Meeting_id = ml.Meeting_id
+            WHERE m.Status = 'Ongoing'
+            GROUP BY m.Meeting_id, u.User_name
+            ORDER BY m.Event_date, m.Start_time
+        """
         self.cursor.execute(query)
-        return self.print_table(self.cursor)
+        rows = self.cursor.fetchall()
+        columns = [desc[0] for desc in self.cursor.description]
+
+        # 将时间对象转换为字符串
+        meetings = []
+        for row in rows:
+            meeting = dict(zip(columns, row))
+            if isinstance(meeting.get("event_date"), datetime):
+                meeting["event_date"] = meeting["event_date"].strftime("%Y-%m-%d")
+            if isinstance(meeting.get("start_time"), time):
+                meeting["start_time"] = meeting["start_time"].strftime("%H:%M:%S")
+            if isinstance(meeting.get("end_time"), time):
+                meeting["end_time"] = meeting["end_time"].strftime("%H:%M:%S")
+            meetings.append(meeting)
+        for meeting in meetings:
+            # 格式化日期
+            if isinstance(meeting["event_date"], str):  # 如果已经是字符串
+                meeting["event_date"] = datetime.strptime(meeting["event_date"], "%a, %d %b %Y %H:%M:%S GMT").strftime("%Y-%m-%d")
+            # 如果是 datetime 对象
+            elif isinstance(meeting["event_date"], datetime):
+                meeting["event_date"] = meeting["event_date"].strftime("%Y-%m-%d")
+        for meeting in meetings:
+            # 解码语言列表中的 Unicode
+            meeting["languages"] = [lang.encode('utf-8').decode('unicode_escape') for lang in meeting["languages"]]
+
+    
+        for meeting in meetings:
+            print(type(meeting["event_date"]))  # 检查 event_date 的类型
+            print(type(meeting["start_time"]))  # 检查 start_time 的类型
+            print(type(meeting["end_time"]))  # 检查 end_time 的类型
+    
+
+        print("Fetched meetings:", meetings)
+        return meetings
+
+    
+
 
     # def create_meeting(self, holder_id, content, event_date, start_time, end_time, 
     #               event_city, event_place, max_participants, languages):

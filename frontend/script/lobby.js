@@ -117,6 +117,18 @@ function clearForm() {
 }
 
 
+document.addEventListener('DOMContentLoaded', () => {
+    const submitButton = document.getElementById('submit-meeting-button');
+    if (submitButton) {
+        submitButton.addEventListener('click', () => {
+            console.log("Submit button clicked");
+        });
+    } else {
+        console.error("Submit button not found in DOM");
+    }
+});
+
+
 
 // 取得並顯示會議列表
 async function fetchMeetings() {
