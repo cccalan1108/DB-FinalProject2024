@@ -37,7 +37,6 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* 添加文字陰影 */
 }
 
-
 /* 主容器設定 */
 .options-container {
     display: flex; /* 使用 Flexbox */
