@@ -48,7 +48,7 @@
 /* Box Container */
 .box-container {
     width: 450px;
-    height: 350px;
+    height: auto;
     background-color: #ffffff; /* 白色背景 */
     padding: 40px;
     border-radius: 10px; /* 圓角設計 */
