@@ -32,6 +32,7 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
             // 跳至大廳
             alert(data.message);
             window.location.href = 'login.html';
+            
         } else {
             console.error('Error:', data.message);
             alert(data.message); // 顯示錯誤訊息

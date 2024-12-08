@@ -56,18 +56,28 @@ class DatabaseManager:
         return tabulate(rows, headers=columns, tablefmt="github")
 
     def check_account_exists(self, account):
-        query = 'SELECT COUNT(*) FROM "USER" WHERE Account = %s'
-        result = self.execute_query(query, account)
-        return result[0][0] > 0 if result else False
+        try:
+            print("Checking if account exists for:", account)
+            query = 'SELECT COUNT(*) FROM "USER" WHERE Account = %s'
+            result = self.execute_query(query, (account,))
+            print("Query result:", result)
+            return result[0][0] > 0 if result else False
+        except Exception as e:
+            print(f"Error in check_account_exists: {e}")
+            return False
+
 
     def create_user(self, **user_data):
         try:
+            print("create_user called with:", user_data)
+            # 取得新的 User_id
             query = 'SELECT COALESCE(MAX(User_id), 0) + 1 FROM "USER"'
             result = self.execute_query(query)
             if not result:
                 return {'status': "error", 'message': "Fail to execute_query"}
             user_id = result[0][0]
 
+            # 插入 USER 資料表
             insertUser_query =  """
                             INSERT INTO "USER" (
                                 User_id, Account, User_name, User_nickname, Password, 
@@ -92,6 +102,7 @@ class DatabaseManager:
                 user_data['register_time']
             ))
 
+            # 檢查是否為管理員
             if user_data['admin_code'] == 123456:
                 if not success:
                     return False
@@ -110,6 +121,7 @@ class DatabaseManager:
         except Exception as e:
             print(f"Error creating user: {e}")
             return False
+
 
     def verify_login(self, account, password):
         query = """

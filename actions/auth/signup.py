@@ -18,15 +18,18 @@ class SignUpAction(Action):
         self.db_manager = db_manager()
 
     def exec(self):
+        print("開始註冊作業")
         try:
             account = request.form.get('account')
-            # 確認帳號是否存在
+            print("Received account name:", account)
+
             if self.db_manager and self.db_manager.check_account_exists(account):
                 response = {
                     "status": "error",
                     "message": "Account already exists!",
                 }
                 return jsonify(response)
+            print("西八")
 
             password = request.form.get('password')          
             user_name = request.form.get('name')           
@@ -38,6 +41,10 @@ class SignUpAction(Action):
             birthday = request.form.get('birthday')
             city = request.form.get('city')
             admin_code = request.form.get('admin_code')
+
+            # 打印接收到的資料
+            print("Received data:", account, password, user_name, user_nickname,
+                  birthday, nationality, city, phone, email, admin_code, sex)
 
             if self.db_manager:
                 success = self.db_manager.create_user(
