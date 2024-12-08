@@ -45,6 +45,7 @@ document.getElementById('list-meeting-button').addEventListener('click', () => {
 
 // 綁定事件
 document.getElementById('submit-meeting-button').addEventListener('click', async () => {
+    console.log("Submit button clicked"); // 检查按钮是否被点击
     const meetingData = {
         content: document.getElementById('meeting-type').value.trim(),
         languages: document.getElementById('languages').value
@@ -57,8 +58,10 @@ document.getElementById('submit-meeting-button').addEventListener('click', async
         start_time: document.getElementById('start-time').value,
         end_time: document.getElementById('end-time').value,
         max_participants: document.getElementById('max-participants').value.trim(),
-        holder_id: localStorage.getItem('holder_id')
+        holder_id: document.getElementById('holder-id').value.trim()
     };
+
+    console.log("Meeting data prepared:", meetingData); // 打印表单数据
 
     if (
         !meetingData.content ||
@@ -75,17 +78,16 @@ document.getElementById('submit-meeting-button').addEventListener('click', async
     }
 
     try {
-        console.log("Submitting meeting data:", meetingData); // 調試用
+        console.log("Submitting meeting data:", meetingData); // 调试提交数据
         const response = await fetch('/create-meeting', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(meetingData)
         });
-        console.log("Response received:", response); // 查看是否有回應
 
-
+        console.log("Response received:", response); // 查看响应
         const result = await response.json();
-        console.log("Parsed response:", result); // 確認返回的結果
+        console.log("Parsed response:", result); // 检查解析的响应
 
         if (result.status === 'success') {
             alert(result.message);
@@ -95,10 +97,11 @@ document.getElementById('submit-meeting-button').addEventListener('click', async
             alert(`Error: ${result.message}`);
         }
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error occurred during fetch:', error);
         alert('An unexpected error occurred.');
     }
 });
+
 
 // 清空表單函式
 function clearForm() {
