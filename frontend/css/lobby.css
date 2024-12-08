@@ -37,6 +37,25 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* 添加文字陰影 */
 }
 
+/* 按鈕 */
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 2px solid #6b5f41;
+    background-color: rgb(234, 225, 208);
+    color: #6b5f41;
+    text-decoration: none; /* 移除下劃線 */
+    border-radius: 5px; /* 圓角 */
+    text-align: center; /* 文字置中 */
+    transition: background-color 0.3s ease;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold; /* 加粗字體 */
+}
+
+.button:hover {
+    background-color: #6b5f41; /* 滑鼠懸停效果 */
+    color: white; /* 滑鼠懸停時文字變為白色 */
+}
 
 /* 主容器設定 */
 .options-container {
