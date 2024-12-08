@@ -62,12 +62,14 @@ class DatabaseManager:
 
     def create_user(self, **user_data):
         try:
+            # 取得新的 User_id
             query = 'SELECT COALESCE(MAX(User_id), 0) + 1 FROM "USER"'
             result = self.execute_query(query)
             if not result:
                 return {'status': "error", 'message': "Fail to execute_query"}
             user_id = result[0][0]
 
+            # 插入 USER 資料表
             insertUser_query =  """
                             INSERT INTO "USER" (
                                 User_id, Account, User_name, User_nickname, Password, 
@@ -92,6 +94,7 @@ class DatabaseManager:
                 user_data['register_time']
             ))
 
+            # 檢查是否為管理員
             if user_data['admin_code'] == 123456:
                 if not success:
                     return False
@@ -110,6 +113,7 @@ class DatabaseManager:
         except Exception as e:
             print(f"Error creating user: {e}")
             return False
+
 
     def verify_login(self, account, password):
         query = """

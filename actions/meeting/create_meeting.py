@@ -1,4 +1,4 @@
-from ..Action import Action
+from Action import Action
 from datetime import datetime
 
 # class CreateMeetingAction(Action):

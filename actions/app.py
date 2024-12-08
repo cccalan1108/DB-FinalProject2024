@@ -1,4 +1,5 @@
-from flask import Flask, render_template, session, redirect, Blueprint 
+import subprocess
+from flask import Flask, request, render_template, jsonify, session, redirect, Blueprint 
 
 from auth.login import login
 from auth.signup import signUp
@@ -20,6 +21,21 @@ app.register_blueprint(list_meeting)
 @app.route('/register')
 def register():
     return render_template('register.html')
+
+# @app.route('/start-client', methods=['POST'])
+# def start_client():
+#     try:
+#         # 可選：檢查傳入的帳號或其他必要參數
+#         data = request.get_json()
+#         account = data.get('account')
+
+#         # 使用 subprocess 啟動 client.py
+#         subprocess.Popen(['python', 'client.py'])
+
+#         return jsonify({"status": "success", "message": "Client started successfully!"})
+#     except Exception as e:
+#         return jsonify({"status": "error", "message": f"Error starting client: {e}"})
+    
 
 @app.route('/')
 def index():
